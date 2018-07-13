@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="项目总体描述&amp;emsp;&amp;emsp;满意度调查项目总体需求比较简单，使用了 vue 的 vux 组件库，整体使用下来非常方便，虽然说本次需求中问卷的题目是固定的，但是为了未来的复用性考虑，还是将整个问卷作为可配置来开发，后来发现整个决定很大程度上减少了开发的时间。 需求&amp;emsp;&amp;emsp;项目 1.0 版本在 11 月 25 日正式上线，在本次项目中，我负责微信端的开发，页面包括：  登录界面">
+<meta name="keywords" content="项目总结,vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="满意度问卷调查项目总结">
+<meta property="og:url" content="http://yoursite.com/2017/11/27/满意度问卷调查项目总结/index.html">
+<meta property="og:site_name" content="吴某某嗯">
+<meta property="og:description" content="项目总体描述&amp;emsp;&amp;emsp;满意度调查项目总体需求比较简单，使用了 vue 的 vux 组件库，整体使用下来非常方便，虽然说本次需求中问卷的题目是固定的，但是为了未来的复用性考虑，还是将整个问卷作为可配置来开发，后来发现整个决定很大程度上减少了开发的时间。 需求&amp;emsp;&amp;emsp;项目 1.0 版本在 11 月 25 日正式上线，在本次项目中，我负责微信端的开发，页面包括：  登录界面">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20171113092756.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/%E9%97%AE%E5%8D%B7%E8%B0%83%E6%9F%A5.png">
+<meta property="og:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-12/19103424.jpg">
+<meta property="og:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-12/61431683.jpg">
+<meta property="og:updated_time" content="2018-07-12T15:52:59.423Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="满意度问卷调查项目总结">
+<meta name="twitter:description" content="项目总体描述&amp;emsp;&amp;emsp;满意度调查项目总体需求比较简单，使用了 vue 的 vux 组件库，整体使用下来非常方便，虽然说本次需求中问卷的题目是固定的，但是为了未来的复用性考虑，还是将整个问卷作为可配置来开发，后来发现整个决定很大程度上减少了开发的时间。 需求&amp;emsp;&amp;emsp;项目 1.0 版本在 11 月 25 日正式上线，在本次项目中，我负责微信端的开发，页面包括：  登录界面">
+<meta name="twitter:image" content="http://oy1qb3tnj.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20171113092756.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/27/满意度问卷调查项目总结/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>满意度问卷调查项目总结 | 吴某某嗯</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">吴某某嗯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/27/满意度问卷调查项目总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wxc">
+      <meta itemprop="description" content="前端/js/react/vue">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吴某某嗯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">满意度问卷调查项目总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-27 14:42:47" itemprop="dateCreated datePublished" datetime="2017-11-27T14:42:47+08:00">2017-11-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-12 23:52:59" itemprop="dateModified" datetime="2018-07-12T23:52:59+08:00">2018-07-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="项目总体描述"><a href="#项目总体描述" class="headerlink" title="项目总体描述"></a>项目总体描述</h2><p>&emsp;&emsp;满意度调查项目总体需求比较简单，使用了 vue 的 vux 组件库，整体使用下来非常方便，虽然说本次需求中问卷的题目是固定的，但是为了未来的复用性考虑，还是将整个问卷作为可配置来开发，后来发现整个决定很大程度上减少了开发的时间。</p>
+<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>&emsp;&emsp;项目 1.0 版本在 11 月 25 日正式上线，在本次项目中，我负责微信端的开发，页面包括：</p>
+<ol>
+<li>登录界面，主要工作为按照设计制作页面，制作登录功能</li>
+<li>问卷页面，主要功能为填写问卷和提交答案，问题类型分为四种：<ol>
+<li>单选</li>
+<li>多选（其他选项上需要一个输入框输入详细原因）</li>
+<li>打分</li>
+<li>填空</li>
+</ol>
+</li>
+</ol>
+<p>&emsp;&emsp;其他功能：</p>
+<ul>
+<li>跳转：选择某一选项跳转到某一道具体的题目上，若没配置，则默认下一题</li>
+<li>显示控制：未被跳转到的题目保持折叠状态</li>
+<li>必填控制：遇到选填题时自动显示下一题</li>
+</ul>
+<ol start="3">
+<li>结果页面，主要功能为按照设计制作页面，显示抽奖号</li>
+</ol>
+<h3 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h3><p><img src="http://oy1qb3tnj.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20171113092756.jpg" alt="需求图"></p>
+<h2 id="关于技术"><a href="#关于技术" class="headerlink" title="关于技术"></a>关于技术</h2><p>&emsp;&emsp;这次项目使用 vue 框架，因为以前有使用过，所以总体上手比较快，vux 组件库简单易用，非常适合移动端开发。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="一、题目列表设计"><a href="#一、题目列表设计" class="headerlink" title="一、题目列表设计"></a>一、题目列表设计</h3><p>&emsp;&emsp;需求总流程很简单，主要难点集中在如何设计一个可配置的问卷。</p>
+<h4 id="1-总结构"><a href="#1-总结构" class="headerlink" title="1. 总结构"></a>1. 总结构</h4><p><img src="http://oy1qb3tnj.bkt.clouddn.com/%E9%97%AE%E5%8D%B7%E8%B0%83%E6%9F%A5.png" alt="结构"></p>
+<h4 id="2-问卷数据的-json-结构"><a href="#2-问卷数据的-json-结构" class="headerlink" title="2. 问卷数据的 json 结构"></a>2. 问卷数据的 json 结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">answer: [</span><br><span class="line">    &#123;</span><br><span class="line">        questionId: &apos;&apos;,     // 问题id</span><br><span class="line">        optionsList: [],    // 答案选项id（单选和多选）</span><br><span class="line">        optionContent: &apos;&apos;   // 保存其他选项的详细内容（多选）</span><br><span class="line">        answerContent: &apos;&apos;,  // 保存字符串（文字和打分）</span><br><span class="line">        otherId: &apos;&apos;         // 其他这个选项的id（多选）</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">]</span><br><span class="line">question: [</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;questionId&quot;: 4,        // 问题id</span><br><span class="line">        &quot;questionType&quot;: &quot;&quot;,    // 问题类型（0:单选；1:多选 2:打分；3:填空）</span><br><span class="line">        &quot;questionNo&quot;: 4,        // 问题在问卷中的题号</span><br><span class="line">        &quot;questionName&quot;: &quot;&quot;,     // 问题的标题</span><br><span class="line">        &quot;isRequired&quot;: &quot;1&quot;,      // 问题是否为必选</span><br><span class="line">        &quot;remark&quot;: null,         // 备注（文字题中用于placeholder）</span><br><span class="line">        &quot;cateId&quot;: 1,            // 问题主题id</span><br><span class="line">        &quot;scheduleId&quot;: 0,        // 问卷id</span><br><span class="line">        &quot;optionsList&quot;: [        // 问题选项列表（单选和多选）</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;optionId&quot;: 6,          // 选项id</span><br><span class="line">                &quot;questionId&quot;: 4,        // 问题id</span><br><span class="line">                &quot;optionContent&quot;: &quot;&quot;,    // 选项内容  </span><br><span class="line">                &quot;isOther&quot;: &quot;0&quot;,         // 是否为其他项（多选）</span><br><span class="line">                &quot;remark&quot;: null,         // 备注</span><br><span class="line">                &quot;optionNo&quot;: 1,          // 选项在问题中的编号</span><br><span class="line">                &quot;linkQuestionId&quot;: null  // 选择后跳转到问题id</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        ],</span><br><span class="line">        &quot;optionScore&quot;: &#123;        // 打分题配置</span><br><span class="line">            &quot;optionScoreId&quot;: 30,        // 分数选项id</span><br><span class="line">            &quot;questionId&quot;: 78,           // 问题id</span><br><span class="line">            &quot;scoreMin&quot;: 1,              // 最低分</span><br><span class="line">            &quot;scoreMax&quot;: 10,             // 最高分</span><br><span class="line">            &quot;scoreLimit&quot;: 6,            // 分界线</span><br><span class="line">            &quot;linkQuestionId&quot;: 11        // 大于分界线跳转到问题id</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;通过分析需求，可以看出题目的跳转和选项相关，所以数据库中把控制跳转的的字段放在问题的选项中（optionsList 或 optionScore）。此外，保留了很多可配置的字段，为了后面题目发生修改时能快速调整。</p>
+<h4 id="3-问卷生成"><a href="#3-问卷生成" class="headerlink" title="3. 问卷生成"></a>3. 问卷生成</h4><p><img src="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-12/19103424.jpg" alt=""></p>
+<p>&emsp;&emsp;问卷是由 question 数组循环生成，在 question 组件中通过判断 questionType 生成不同的类型的题目，这样做的是为了把每个问题中公共的部分（保存答案，跳转事件，生成题目标题，控制显示等）放在 question 组件中处理。这样如果以后有新的题目类型，只需要在 question 组件中添加即可。</p>
+<p><img src="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-12/61431683.jpg" alt=""></p>
+<p>&emsp;&emsp;在题目修改答案的时候保持单向的数据流，这样页面中每个样式的变化都是有迹可循的，发生错误时不会无从下手，并且保证页面显示和内存中的值保存一致。为了方便后端的解析入库，不同类型题目的 answer 对象保存一致，这就需要在 question 组件中对 answer 对象进行拆解和组装。此外，question 还可以在回传 answer 对象的时候，附带下一题题目的下标，在 questionList 中进行跳转。</p>
+<h3 id="二、CSS-的作用域"><a href="#二、CSS-的作用域" class="headerlink" title="二、CSS 的作用域"></a>二、CSS 的作用域</h3><p>&emsp;&emsp;vue 项目一般使用单文件组件，组件中的 css 样式作用域以前一直是非常头疼的问题，之前常用的做法一般通过在外层 div 包一个 class 来控制作用域，但是这种做法会莫名地增加工作量，而且写到最后，复杂的 css 后代选择器很难辨别不说还影响性能，所以 vue 里通过“别名”的方式来控制作用域。</p>
+<h4 id="1-CSS-作用域"><a href="#1-CSS-作用域" class="headerlink" title="1. CSS 作用域"></a>1. CSS 作用域</h4><p>&emsp;&emsp;当 <code>&lt;style&gt;</code> 标签有 scoped 属性时，它的 CSS 只作用于当前组件中的元素。这类似于 Shadow DOM 中的样式封装。它有一些注意事项，但不需要任何 polyfill。它通过使用 PostCSS 来实现以下转换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;style scoped&gt;</span><br><span class="line">.example &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;example&quot;&gt;hi&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p>转换结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">.example[data-v-f3f3eg9] &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;example&quot; data-v-f3f3eg9&gt;hi&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="2-CSS-Modules"><a href="#2-CSS-Modules" class="headerlink" title="2. CSS Modules"></a>2. CSS Modules</h4><p>&emsp;&emsp;CSS Modules 是一个用于模块化和组合 CSS 的流行系统。vue-loader 提供了与 CSS 模块的一流集成，可以作为模拟 CSS 作用域的替代方案。</p>
+<h5 id="emsp-emsp-使用"><a href="#emsp-emsp-使用" class="headerlink" title="&emsp;&emsp;使用"></a>&emsp;&emsp;使用</h5><p>&emsp;&emsp;Vue-loader 在 v9.8.0 之后加入了对 CSS Modules 的支持。我们只要在.vue 文件的<code>&lt;style&gt;</code>处加一个 module 就行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;style module&gt;</span><br><span class="line">.red &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line">.bold &#123;</span><br><span class="line">  font-weight: bold;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;这将为 css-loader 打开 CSS Modules 模式，生成的 CSS 对象将为组件注入一个名叫 $style 的计算属性，你可以在你的模块中使用动态 class 绑定：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;p :class=&quot;$style.red&quot;&gt;</span><br><span class="line">    This should be red</span><br><span class="line">  &lt;/p&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;转换结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p class=&quot;_1VyoJ-uZOjlOxP7jWUy19_0&quot;&gt;</span><br><span class="line">    This should be red</span><br><span class="line">&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="emsp-emsp-支持语法"><a href="#emsp-emsp-支持语法" class="headerlink" title="&emsp;&emsp;支持语法"></a>&emsp;&emsp;支持语法</h5><p>&emsp;&emsp;由于它是一个计算属性，它也适用于 :class 的 object/array 语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;p :class=&quot;&#123; [$style.red]: isRed &#125;&quot;&gt;</span><br><span class="line">      Am I red?</span><br><span class="line">    &lt;/p&gt;</span><br><span class="line">    &lt;p :class=&quot;[$style.red, $style.bold]&quot;&gt;</span><br><span class="line">      Red and bold</span><br><span class="line">    &lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;你也可以在 JavaScript 访问它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  created () &#123;</span><br><span class="line">    console.log(this.$style.red)</span><br><span class="line">    // -&gt; &quot;_1VyoJ-uZOjlOxP7jWUy19_0&quot;</span><br><span class="line">    // an identifier generated based on filename and className.</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="emsp-emsp-配置"><a href="#emsp-emsp-配置" class="headerlink" title="&emsp;&emsp;配置"></a>&emsp;&emsp;配置</h5><p>&emsp;&emsp;默认的配置是<code>&#39;[hash:base64]&#39;</code>，即将 class 名转为 hash 值，可读性比较低，不方便调试开发，可以在 Webpack 中对 css-loader 进行配置。针对 vue，在 vue-loader 中配置 cssModules 属性里即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">loader: &apos;vue&apos;,</span><br><span class="line">options: &#123;</span><br><span class="line">    cssModules: &#123;</span><br><span class="line">        // 设置本地别名</span><br><span class="line">        localIdentName: &apos;[name]-[local]-[hash:base64:5]&apos;,</span><br><span class="line">        // 开启驼峰式支持</span><br><span class="line">        camelCase: true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;配置后，刚刚的代码转换结果变为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- [组件名]-[class]-[hash] --&gt;</span><br><span class="line">&lt;p class=&quot;App-red-3cl75_0&quot;&gt;</span><br><span class="line">    This should be red</span><br><span class="line">&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="3-项目使用"><a href="#3-项目使用" class="headerlink" title="3. 项目使用"></a>3. 项目使用</h4><p>&emsp;&emsp;项目中很多情况下需要对第三方 UI 库中的组件样式做调整，如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"question"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"weui-cells__title"</span>&gt;</span></span><br><span class="line">        test</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    .question &#123;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    .question .weui-cells__title &#123;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;test 所在的<code>&lt;div&gt;</code>是第三方生产，要修改 test 文字的样式</p>
+<h5 id="emsp-emsp-使用-scoped"><a href="#emsp-emsp-使用-scoped" class="headerlink" title="&emsp;&emsp;使用 scoped"></a>&emsp;&emsp;使用 scoped</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;question&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;weui-cells__title&quot;&gt;</span><br><span class="line">        test</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    .question &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    .question .weui-cells__title &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;转换结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div data-v-b8a14a32 class=&quot;question&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;weui-cells__title&quot;&gt;</span><br><span class="line">    test</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .question[data-v-b8a14a32] &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    .question .weui-cells__title[data-v-b8a14a32] &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;使用这种方式，可能看到转化后的类名并不能匹配到对应的位置，我们期望的类名应该为</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.question</span><span class="selector-attr">[data-v-b8a14a32]</span> <span class="selector-class">.weui-cells__title</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;所以如果要修改第三方的 ui 组件，最好使用 css modules</p>
+<h5 id="emsp-emsp-使用-CSS-Modules"><a href="#emsp-emsp-使用-CSS-Modules" class="headerlink" title="&emsp;&emsp;使用 CSS Modules"></a>&emsp;&emsp;使用 CSS Modules</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div :class=&quot;$style.question&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;weui-cells__title&quot;&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;style module&gt;</span><br><span class="line">    .question &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    .question :global(.weui-cells__title） &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;转换结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;questionList-question-MErG2_0&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;weui-cells__title&quot;&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .questionList-question-MErG2_0 &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    .questionList-question-MErG2_0 .weui-cells__title&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在.vue 文件的<code>&lt;style&gt;</code>处加一个 module，默认将类名转化为局部变量，使用<code>:global(...)</code>来标记全局变量，通过这种方式可以很容易地覆盖原有 UI 组件样式。</p>
+<ul>
+<li><h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4></li>
+<li><a href="https://vue-loader.vuejs.org/zh-cn/features/scoped-css.html" target="_blank" rel="noopener">css 作用域 · vue-loader</a></li>
+<li><a href="https://vue-loader.vuejs.org/zh-cn/features/css-modules.html" target="_blank" rel="noopener">css Modules · vue-loader</a></li>
+<li><a href="https://segmentfault.com/a/1190000007468604" target="_blank" rel="noopener">在 Vue 工作流中使用 CSS Modules</a></li>
+<li><a href="https://github.com/webpack-contrib/css-loader" target="_blank" rel="noopener">css-loader 文档</a></li>
+<li><a href="https://github.com/zxc0328/css-modules-demo" target="_blank" rel="noopener">css-modules-demo</a></li>
+</ul>
+<h3 id="三、IE-兼容"><a href="#三、IE-兼容" class="headerlink" title="三、IE 兼容"></a>三、IE 兼容</h3><p>&emsp;&emsp;因为 IE 不支持 es6 语法，所以如果需要适配 IE 浏览器，需要做特殊的适配处理。vue 使用 webpack 构建项目，可以通过 babel-polyfill 把代码从 es6 转为 es5。</p>
+<h4 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[vuex] vuex requires a Promise polyfill in this browser.</span><br></pre></td></tr></table></figure>
+<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-polyfill</span><br></pre></td></tr></table></figure>
+<p>在 webpack.config.js 配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: [&apos;babel-polyfill&apos;,&apos;./src/main.js&apos;]</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="最后的一些想法"><a href="#最后的一些想法" class="headerlink" title="最后的一些想法"></a>最后的一些想法</h2><p>&emsp;&emsp;这次项目使用的框架是 vue，相对于 react，vue 的整体结构化更加清晰一些，很容易写出比较标准的代码，整体的编程风格让人不由自主地超着低耦合的解决方案接近，当然其中也踩了不少的坑，一方面是语法之间的差别需要适应，另一方面就是在有些控件的事件触发顺序上与我想象中的差别很大，经常造成数据显示错误，虽然最后通过 dom 操作强行同步了值，但不是好的解决方案，本次项目中由于某些需求的特殊性，在项目的后期加了很多逻辑比较混乱的代码，如果后面还需要重新使用的话，还需要好好想想重构这些代码。另外题目的可配置性还不够完善，很多地方还是依据当前项目的要求写死，不够通用，这些都是可以改进的地方。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/项目总结/" rel="tag"># 项目总结</a>
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/12/云选项目总结/" rel="next" title="云选项目总结">
+                <i class="fa fa-chevron-left"></i> 云选项目总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/19/ory editor/" rel="prev" title="ORY Editor入门指南">
+                ORY Editor入门指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wxc</p>
+              <p class="site-description motion-element" itemprop="description">前端/js/react/vue</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目总体描述"><span class="nav-number">1.</span> <span class="nav-text">项目总体描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型"><span class="nav-number">1.2.</span> <span class="nav-text">原型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于技术"><span class="nav-number">2.</span> <span class="nav-text">关于技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">3.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、题目列表设计"><span class="nav-number">3.1.</span> <span class="nav-text">一、题目列表设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-总结构"><span class="nav-number">3.1.1.</span> <span class="nav-text">1. 总结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-问卷数据的-json-结构"><span class="nav-number">3.1.2.</span> <span class="nav-text">2. 问卷数据的 json 结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-问卷生成"><span class="nav-number">3.1.3.</span> <span class="nav-text">3. 问卷生成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、CSS-的作用域"><span class="nav-number">3.2.</span> <span class="nav-text">二、CSS 的作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-CSS-作用域"><span class="nav-number">3.2.1.</span> <span class="nav-text">1. CSS 作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-CSS-Modules"><span class="nav-number">3.2.2.</span> <span class="nav-text">2. CSS Modules</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-使用"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">  使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-支持语法"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">  支持语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-配置"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">  配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-项目使用"><span class="nav-number">3.2.3.</span> <span class="nav-text">3. 项目使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-使用-scoped"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">  使用 scoped</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-使用-CSS-Modules"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">  使用 CSS Modules</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">3.2.4.</span> <span class="nav-text">参考：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、IE-兼容"><span class="nav-number">3.3.</span> <span class="nav-text">三、IE 兼容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#错误"><span class="nav-number">3.3.1.</span> <span class="nav-text">错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决办法"><span class="nav-number">3.3.2.</span> <span class="nav-text">解决办法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后的一些想法"><span class="nav-number">4.</span> <span class="nav-text">最后的一些想法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wxc</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

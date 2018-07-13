@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="18 年 5 月内部分享时用的 node ppt 整理 Router 路由作用 Router 主要用来描述请求 URL 和具体承担执行动作的 Controller 的对应关系， 框架约定了 app/router.js 文件用于统一所有路由规则。 通过统一的配置，我们可以避免路由规则逻辑散落在多个地方，从而出现未知的冲突，集中在一起我们可以更方便的来查看全局的路由规则。  如何定义 Routerap">
+<meta name="keywords" content="egg,node,分享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="egg中的路由和中间件">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/egg中的路由和中间件/index.html">
+<meta property="og:site_name" content="吴某某嗯">
+<meta property="og:description" content="18 年 5 月内部分享时用的 node ppt 整理 Router 路由作用 Router 主要用来描述请求 URL 和具体承担执行动作的 Controller 的对应关系， 框架约定了 app/router.js 文件用于统一所有路由规则。 通过统一的配置，我们可以避免路由规则逻辑散落在多个地方，从而出现未知的冲突，集中在一起我们可以更方便的来查看全局的路由规则。  如何定义 Routerap">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://camo.githubusercontent.com/d80cf3b511ef4898bcde9a464de491fa15a50d06/68747470733a2f2f7261772e6769746875622e636f6d2f66656e676d6b322f6b6f612d67756964652f6d61737465722f6f6e696f6e2e706e67">
+<meta property="og:image" content="https://raw.githubusercontent.com/koajs/koa/a7b6ed0529a58112bac4171e4729b8760a34ab8b/docs/middleware.gif">
+<meta property="og:updated_time" content="2018-07-12T15:37:17.217Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="egg中的路由和中间件">
+<meta name="twitter:description" content="18 年 5 月内部分享时用的 node ppt 整理 Router 路由作用 Router 主要用来描述请求 URL 和具体承担执行动作的 Controller 的对应关系， 框架约定了 app/router.js 文件用于统一所有路由规则。 通过统一的配置，我们可以避免路由规则逻辑散落在多个地方，从而出现未知的冲突，集中在一起我们可以更方便的来查看全局的路由规则。  如何定义 Routerap">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/d80cf3b511ef4898bcde9a464de491fa15a50d06/68747470733a2f2f7261772e6769746875622e636f6d2f66656e676d6b322f6b6f612d67756964652f6d61737465722f6f6e696f6e2e706e67">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/egg中的路由和中间件/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>egg中的路由和中间件 | 吴某某嗯</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">吴某某嗯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/egg中的路由和中间件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wxc">
+      <meta itemprop="description" content="前端/js/react/vue">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吴某某嗯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">egg中的路由和中间件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-15 17:31:30" itemprop="dateCreated datePublished" datetime="2018-05-15T17:31:30+08:00">2018-05-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-12 23:37:17" itemprop="dateModified" datetime="2018-07-12T23:37:17+08:00">2018-07-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>18 年 5 月内部分享时用的 node ppt 整理</p>
+<h1 id="Router-路由"><a href="#Router-路由" class="headerlink" title="Router 路由"></a>Router 路由</h1><h1 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h1><ul>
+<li>Router 主要用来描述请求 URL 和具体承担执行动作的 Controller 的对应关系， 框架约定了 <code>app/router.js</code> 文件用于统一所有路由规则。</li>
+<li>通过统一的配置，我们可以避免路由规则逻辑散落在多个地方，从而出现未知的冲突，集中在一起我们可以更方便的来查看全局的路由规则。</li>
+</ul>
+<h2 id="如何定义-Router"><a href="#如何定义-Router" class="headerlink" title="如何定义 Router"></a>如何定义 Router</h2><p><code>app/router.js</code> 里面定义 URL 路由规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  const &#123; router, controller &#125; = app;</span><br><span class="line">  router.get(&apos;/user/:id&apos;, controller.user.info);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>app/controller</code> 目录下面实现 Controller</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// app/controller/user.js</span><br><span class="line">class UserController extends Controller &#123;</span><br><span class="line">  async info() &#123;</span><br><span class="line">    const &#123; ctx &#125; = this;</span><br><span class="line">    ctx.body = &#123;</span><br><span class="line">      name: `hello $&#123;ctx.params.id&#125;`,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当用户执行 <code>GET /user/123</code>，<code>app/controller/user.js</code> 这个里面的 info 方法就会执行。</p>
+<h1 id="Router-详细定义说明"><a href="#Router-详细定义说明" class="headerlink" title="Router 详细定义说明"></a>Router 详细定义说明</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">router.verb(&apos;router-name&apos;, &apos;path-match&apos;, middleware1, ..., middlewareN, app.controller.action);</span><br></pre></td></tr></table></figure>
+<p>路由完整定义主要包括 5 个主要部分(<strong>有颜色部分为必填</strong>):</p>
+<ul>
+<li><strong>verb</strong> - 用户触发动作，支持 get，post 等所有 HTTP 方法。</li>
+<li>router - name 给路由设定一个别名，可以通过 Helper 提供的辅助函数 <code>pathFor</code> 和 <code>urlFor</code> 来生成 URL。</li>
+<li><strong>path-match</strong> - 路由 URL 路径。</li>
+<li>middleware1 - 在 Router 里面可以配置多个 Middleware。</li>
+<li><p><strong>controller</strong> - 指定路由映射到的具体的 controller 上，controller 可以有两种写法：</p>
+<ul>
+<li><code>app.controller.user.fetch</code> - 直接指定一个具体的 controller</li>
+<li><code>&#39;user.fetch&#39;</code> - 可以简写为字符串形式</li>
+</ul>
+</li>
+</ul>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ul>
+<li>在 Router 定义中， 可以支持多个 Middleware 串联执行</li>
+<li>Controller 必须定义在 <code>app/controller</code> 目录中。</li>
+<li>一个文件里面也可以包含多个 Controller 定义，在定义路由的时候，可以通过 <code>${fileName}.${functionName}</code> 的方式指定对应的 Controller。</li>
+<li>Controller 支持子目录，在定义路由的时候，可以通过 <code>${directoryName}.${fileName}.${functionName}</code>的方式制定对应的 Controller。</li>
+</ul>
+<h1 id="RESTful-风格的-URL-定义"><a href="#RESTful-风格的-URL-定义" class="headerlink" title="RESTful 风格的 URL 定义"></a>RESTful 风格的 URL 定义</h1><ul>
+<li>如果想通过 RESTful 的方式来定义路由，使用  <code>app.resources(&#39;routerName&#39;, &#39;pathMatch&#39;, controller)</code>  快速在一个路径上生成  <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" target="_blank" rel="noopener">CRUD</a>  路由结构。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  const &#123; router, controller &#125; = app;</span><br><span class="line">  router.resources(&apos;posts&apos;, controller.posts);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>上面代码就在 <code>/posts</code> 路径上部署了一组 CRUD 路径结构，对应的 Controller 为 <code>app/controller/posts.js</code> 接下来， 你只需要在 <code>posts.js</code> 里面实现对应的函数就可以了。</p>
+<p>| Method | Path            | Route Name | Controller.Action             |<br>| —— | ————— | ———- | —————————– |<br>| GET    | /posts          | posts      | app.controllers.posts.index   |<br>| GET    | /posts/new      | new_post   | app.controllers.posts.new     |<br>| GET    | /posts/:id      | post       | app.controllers.posts.show    |<br>| GET    | /posts/:id/edit | edit_post  | app.controllers.posts.edit    |<br>| POST   | /posts          | posts      | app.controllers.posts.create  |<br>| PUT    | /posts/:id      | post       | app.controllers.posts.update  |<br>| DELETE | /posts/:id      | post       | app.controllers.posts.destroy |</p>
+</li>
+</ul>
+<h1 id="获取-Query-String-参数"><a href="#获取-Query-String-参数" class="headerlink" title="获取 Query String 参数"></a>获取 Query String 参数</h1><ul>
+<li>使用<code>ctx.query</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  app.router.get(&apos;/params&apos;, controller.params.queryString);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/controller/params.js</span><br><span class="line">exports.queryString = async ctx =&gt; &#123;</span><br><span class="line">  ctx.body = `search: $&#123;ctx.query.name&#125;`;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// curl http://127.0.0.1:7001/params?name=egg</span><br></pre></td></tr></table></figure>
+<h1 id="获取-URL-中的参数"><a href="#获取-URL-中的参数" class="headerlink" title="获取 URL 中的参数"></a>获取 URL 中的参数</h1><ul>
+<li>使用<code>ctx.params</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  app.router.get(&apos;/params/:id/:name&apos;, controller.params.urlParams);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/controller/params.js</span><br><span class="line">exports.urlParams = async ctx =&gt; &#123;</span><br><span class="line">  ctx.body = `user: $&#123;ctx.params.id&#125;, $&#123;ctx.params.name&#125;`;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// curl http://127.0.0.1:7001/params/123/xiaoming</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注：<ul>
+<li>路由里面也支持定义正则，可以更加灵活的获取参数</li>
+</ul>
+</li>
+</ul>
+<h1 id="表单内容获取"><a href="#表单内容获取" class="headerlink" title="表单内容获取"></a>表单内容获取</h1><ul>
+<li>使用<code>ctx.request.body</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  app.router.post(&apos;/params&apos;, app.controller.params.bodyParam);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/controller/params.js</span><br><span class="line">exports.bodyParam = async ctx =&gt; &#123;</span><br><span class="line">  ctx.body = `body: $&#123;JSON.stringify(ctx.request.body)&#125;`;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="内部重定向"><a href="#内部重定向" class="headerlink" title="内部重定向"></a>内部重定向</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  app.router.get(&apos;index&apos;, &apos;/home/index&apos;, app.controller.home.index);</span><br><span class="line">  app.router.redirect(&apos;/&apos;, &apos;/home/index&apos;, 302);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/controller/home.js</span><br><span class="line">exports.index = async ctx =&gt; &#123;</span><br><span class="line">  ctx.body = &apos;hello controller&apos;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// curl -L http://localhost:7001</span><br></pre></td></tr></table></figure>
+<h1 id="外部重定向"><a href="#外部重定向" class="headerlink" title="外部重定向"></a>外部重定向</h1><ul>
+<li>使用<code>ctx.redirect()</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  app.router.get(&apos;/baidu&apos;, controller.params.baidu);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/controller/params.js</span><br><span class="line">exports.baidu = async ctx =&gt; &#123;</span><br><span class="line">  const q = ctx.query.q || &apos;nodejs&apos;;</span><br><span class="line">  ctx.redirect(`https://www.baidu.com/s?wd=$&#123;q&#125;`);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="路由整理"><a href="#路由整理" class="headerlink" title="路由整理"></a>路由整理</h1><ul>
+<li>将相关的模块整合放在同一个文件中，在<code>app/router.js</code>中统一调用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  require(&apos;./router/params&apos;)(app);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/router/params.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  app.router.get(&apos;/params&apos;, controller.params.queryString);</span><br><span class="line">  app.router.get(&apos;/params/:id/:name&apos;, controller.params.urlParams);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h1><h1 id="背景环境"><a href="#背景环境" class="headerlink" title="背景环境"></a>背景环境</h1><ul>
+<li>Egg 2.x 基于 Koa 2.x，框架底层以及所有内置插件都使用<code>async function</code>编写</li>
+</ul>
+<h1 id="Koa-的洋葱圈模型"><a href="#Koa-的洋葱圈模型" class="headerlink" title="Koa 的洋葱圈模型"></a>Koa 的洋葱圈模型</h1><p><img src="https://camo.githubusercontent.com/d80cf3b511ef4898bcde9a464de491fa15a50d06/68747470733a2f2f7261772e6769746875622e636f6d2f66656e676d6b322f6b6f612d67756964652f6d61737465722f6f6e696f6e2e706e67" alt=""></p>
+<h1 id="Koa-中间件的执行顺序"><a href="#Koa-中间件的执行顺序" class="headerlink" title="Koa 中间件的执行顺序"></a>Koa 中间件的执行顺序</h1><p><img src="https://raw.githubusercontent.com/koajs/koa/a7b6ed0529a58112bac4171e4729b8760a34ab8b/docs/middleware.gif" alt=""></p>
+<h1 id="egg-中间件"><a href="#egg-中间件" class="headerlink" title="egg 中间件"></a>egg 中间件</h1><ul>
+<li>Egg 是基于 Koa 实现的，所以 Egg 的中间件形式和 Koa 的中间件形式是一样的，都是基于洋葱圈模型。每次我们编写一个中间件，就相当于在洋葱外面包了一层。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// /app/middleware/text.js</span><br><span class="line"></span><br><span class="line">module.exports = () =&gt; &#123;</span><br><span class="line">  return async function text(ctx, next) &#123;</span><br><span class="line">    const query = ctx.query;</span><br><span class="line">    console.log(query);</span><br><span class="line">    await next();</span><br><span class="line">    const body = ctx.body;</span><br><span class="line">    console.log(JSON.stringify(query), body);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// /config/config.default.js</span><br><span class="line">config.middleware = [ &apos;text&apos; ];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>egg 约定一个中间件是一个放置在<code>app/middleware</code>目录下的单独文件，它需要 exports 一个普通的 function</li>
+</ul>
+<h1 id="中间件参数配置"><a href="#中间件参数配置" class="headerlink" title="中间件参数配置"></a>中间件参数配置</h1><p>中间件 exports 的 function，接受两个参数：</p>
+<ul>
+<li>options: 中间件的配置项，框架会将 <code>app.config[middlewareName]</code> 传递进来。</li>
+<li>app: 当前应用 Application 的实例。</li>
+</ul>
+<h1 id="框架和插件中使用中间件"><a href="#框架和插件中使用中间件" class="headerlink" title="框架和插件中使用中间件"></a>框架和插件中使用中间件</h1><ul>
+<li>框架和插件不支持在 <code>config.default.js</code> 中匹配 <code>middleware</code>，需要通过以下方式：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// app.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  // 在中间件最前面统计请求时间</span><br><span class="line">  app.config.coreMiddleware.unshift(&apos;report&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/middleware/report.js</span><br><span class="line">module.exports = () =&gt; &#123;</span><br><span class="line">  return async function (ctx, next) &#123;</span><br><span class="line">    const startTime = Date.now();</span><br><span class="line">    await next();</span><br><span class="line">    // 上报请求时间</span><br><span class="line">    reportTime(Date.now() - startTime);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="router-中使用中间件"><a href="#router-中使用中间件" class="headerlink" title="router 中使用中间件"></a>router 中使用中间件</h1><ul>
+<li>以上两种方式配置的中间件是全局的，会处理每一次请求。 如果你只想针对单个路由生效，可以直接在 <code>app/router.js</code> 中实例化和挂载</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// /app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  const &#123; router, controller &#125; = app;</span><br><span class="line"></span><br><span class="line">  // 直接传递参数</span><br><span class="line">  // const logMiddleware = app.middleware.log(&#123; a: &apos; log in router &apos; &#125;);</span><br><span class="line">  // 使用config中的参数</span><br><span class="line">  const logMiddleware = app.middleware.log(app.config.log);</span><br><span class="line">  router.get(&apos;/text&apos;, logMiddleware, controller.home.index);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="框架默认中间件"><a href="#框架默认中间件" class="headerlink" title="框架默认中间件"></a>框架默认中间件</h1><ul>
+<li>除了应用层加载中间件之外，框架自身和其他的插件也会加载许多中间件。所有的这些自带中间件的配置项都通过在配置中修改中间件同名配置项进行修改，例如框架自带的中间件中有一个 bodyParser 中间件（框架的加载器会将文件名中的各种分隔符都修改成驼峰形式的变量名），我们想要修改 bodyParser 的配置，只需要在 <code>config/config.default.js</code> 中编写</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  bodyParser: &#123;</span><br><span class="line">    jsonLimit: &apos;10mb&apos;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：框架和插件加载的中间件会在应用层配置的中间件之前，框架默认中间件不能被应用层中间件覆盖，如果应用层有自定义同名中间件，在启动时会报错。</strong></p>
+<h1 id="通用配置"><a href="#通用配置" class="headerlink" title="通用配置"></a>通用配置</h1><p>无论是应用层加载的中间件还是框架自带中间件，都支持几个通用的配置项(<code>config/config.default.js</code>)：</p>
+<ul>
+<li>enable：控制中间件是否开启。</li>
+<li>match：设置只有符合某些规则的请求才会经过这个中间件。</li>
+<li>ignore：设置符合某些规则的请求不经过这个中间件。</li>
+</ul>
+<h1 id="enable"><a href="#enable" class="headerlink" title="enable"></a>enable</h1><ul>
+<li>如果我们的应用并不需要默认的 bodyParser 中间件来进行请求体的解析，此时我们可以通过配置 enable 为 false 来关闭它</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  bodyParser: &#123;</span><br><span class="line">    enable: false,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="match-和-ignore"><a href="#match-和-ignore" class="headerlink" title="match 和 ignore"></a>match 和 ignore</h1><ul>
+<li>match 和 ignore 支持的参数都一样，只是作用完全相反，match 和 ignore 不允许同时配置。</li>
+<li>如果我们想让 gzip 只针对 <code>/static</code> 前缀开头的 url 请求开启，我们可以配置 match 选项</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  gzip: &#123;</span><br><span class="line">    match: &apos;/static&apos;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="match-和-ignore-支持多种类型的配置方式"><a href="#match-和-ignore-支持多种类型的配置方式" class="headerlink" title="match 和 ignore 支持多种类型的配置方式"></a>match 和 ignore 支持多种类型的配置方式</h2><ol>
+<li>字符串：当参数为字符串类型时，配置的是一个 url 的路径前缀，所有以配置的字符串作为前缀的 url 都会匹配上。</li>
+<li>正则：当参数为正则时，直接匹配满足正则验证的 url 的路径。</li>
+<li>函数：当参数为一个函数时，会将请求上下文传递给这个函数，最终取函数返回的结果（ture/false）来判断是否匹配。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  gzip: &#123;</span><br><span class="line">    match(ctx) &#123;</span><br><span class="line">      // 只有 ios 设备才开启</span><br><span class="line">      const reg = /iphone|ipad|ipod/i;</span><br><span class="line">      return reg.test(ctx.get(&apos;user-agent&apos;));</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="谢谢！"><a href="#谢谢！" class="headerlink" title="谢谢！"></a>谢谢！</h1>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/egg/" rel="tag"># egg</a>
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+            <a href="/tags/分享/" rel="tag"># 分享</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/14/异步I-O分享/" rel="next" title="异步I/O分享">
+                <i class="fa fa-chevron-left"></i> 异步I/O分享
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/08/vscode插件安利/" rel="prev" title="插件安利">
+                插件安利 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wxc</p>
+              <p class="site-description motion-element" itemprop="description">前端/js/react/vue</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Router-路由"><span class="nav-number">1.</span> <span class="nav-text">Router 路由</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#作用"><span class="nav-number">2.</span> <span class="nav-text">作用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何定义-Router"><span class="nav-number">2.1.</span> <span class="nav-text">如何定义 Router</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Router-详细定义说明"><span class="nav-number">3.</span> <span class="nav-text">Router 详细定义说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">4.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RESTful-风格的-URL-定义"><span class="nav-number">5.</span> <span class="nav-text">RESTful 风格的 URL 定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取-Query-String-参数"><span class="nav-number">6.</span> <span class="nav-text">获取 Query String 参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取-URL-中的参数"><span class="nav-number">7.</span> <span class="nav-text">获取 URL 中的参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#表单内容获取"><span class="nav-number">8.</span> <span class="nav-text">表单内容获取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内部重定向"><span class="nav-number">9.</span> <span class="nav-text">内部重定向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#外部重定向"><span class="nav-number">10.</span> <span class="nav-text">外部重定向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#路由整理"><span class="nav-number">11.</span> <span class="nav-text">路由整理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中间件"><span class="nav-number">12.</span> <span class="nav-text">中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景环境"><span class="nav-number">13.</span> <span class="nav-text">背景环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Koa-的洋葱圈模型"><span class="nav-number">14.</span> <span class="nav-text">Koa 的洋葱圈模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Koa-中间件的执行顺序"><span class="nav-number">15.</span> <span class="nav-text">Koa 中间件的执行顺序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#egg-中间件"><span class="nav-number">16.</span> <span class="nav-text">egg 中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中间件参数配置"><span class="nav-number">17.</span> <span class="nav-text">中间件参数配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架和插件中使用中间件"><span class="nav-number">18.</span> <span class="nav-text">框架和插件中使用中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#router-中使用中间件"><span class="nav-number">19.</span> <span class="nav-text">router 中使用中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架默认中间件"><span class="nav-number">20.</span> <span class="nav-text">框架默认中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通用配置"><span class="nav-number">21.</span> <span class="nav-text">通用配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#enable"><span class="nav-number">22.</span> <span class="nav-text">enable</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#match-和-ignore"><span class="nav-number">23.</span> <span class="nav-text">match 和 ignore</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#match-和-ignore-支持多种类型的配置方式"><span class="nav-number">23.1.</span> <span class="nav-text">match 和 ignore 支持多种类型的配置方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#谢谢！"><span class="nav-number">24.</span> <span class="nav-text">谢谢！</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wxc</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

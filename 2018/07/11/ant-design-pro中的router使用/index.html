@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="react-routerdva 中虽然对 router 做了简单的封装，使用的是react-router这个库(react-router 文档) 下面是一个简单的 react-router 例子: 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455">
+<meta name="keywords" content="react,ant design pro,dva,教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ant design pro中的router使用">
+<meta property="og:url" content="http://yoursite.com/2018/07/11/ant-design-pro中的router使用/index.html">
+<meta property="og:site_name" content="吴某某嗯">
+<meta property="og:description" content="react-routerdva 中虽然对 router 做了简单的封装，使用的是react-router这个库(react-router 文档) 下面是一个简单的 react-router 例子: 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-11/88394112.jpg">
+<meta property="og:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-11/38172382.jpg">
+<meta property="og:updated_time" content="2018-07-12T15:05:57.335Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ant design pro中的router使用">
+<meta name="twitter:description" content="react-routerdva 中虽然对 router 做了简单的封装，使用的是react-router这个库(react-router 文档) 下面是一个简单的 react-router 例子: 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455">
+<meta name="twitter:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-11/88394112.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/11/ant-design-pro中的router使用/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ant design pro中的router使用 | 吴某某嗯</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">吴某某嗯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/11/ant-design-pro中的router使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wxc">
+      <meta itemprop="description" content="前端/js/react/vue">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吴某某嗯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ant design pro中的router使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-11 21:19:39" itemprop="dateCreated datePublished" datetime="2018-07-11T21:19:39+08:00">2018-07-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-12 23:05:57" itemprop="dateModified" datetime="2018-07-12T23:05:57+08:00">2018-07-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="react-router"><a href="#react-router" class="headerlink" title="react-router"></a>react-router</h2><p>dva 中虽然对 router 做了简单的封装，使用的是<a href="https://github.com/ReactTraining/react-router" target="_blank" rel="noopener">react-router</a>这个库(<a href="https://reacttraining.com/react-router/web/example/basic" target="_blank" rel="noopener">react-router 文档</a>)</p>
+<p>下面是一个简单的 react-router 例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">import React from &quot;react&quot;;</span><br><span class="line">import &#123; BrowserRouter as Router, Route, Link &#125; from &quot;react-router-dom&quot;;</span><br><span class="line"></span><br><span class="line">const BasicExample = () =&gt; (</span><br><span class="line">  &lt;Router&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &lt;li&gt;</span><br><span class="line">          &lt;Link to=&quot;/&quot;&gt;Home&lt;/Link&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">        &lt;li&gt;</span><br><span class="line">          &lt;Link to=&quot;/about&quot;&gt;About&lt;/Link&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">        &lt;li&gt;</span><br><span class="line">          &lt;Link to=&quot;/topics&quot;&gt;Topics&lt;/Link&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">      &lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">      &lt;hr /&gt;</span><br><span class="line"></span><br><span class="line">      &lt;Route exact path=&quot;/&quot; component=&#123;Home&#125; /&gt;</span><br><span class="line">      &lt;Route path=&quot;/about&quot; component=&#123;About&#125; /&gt;</span><br><span class="line">      &lt;Route path=&quot;/topics&quot; component=&#123;Topics&#125; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/Router&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">const Home = () =&gt; (</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;Home&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">const About = () =&gt; (</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;About&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">const Topics = (&#123; match &#125;) =&gt; (</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;Topics&lt;/h2&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li&gt;</span><br><span class="line">        &lt;Link to=&#123;`$&#123;match.url&#125;/rendering`&#125;&gt;Rendering with React&lt;/Link&gt;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">      &lt;li&gt;</span><br><span class="line">        &lt;Link to=&#123;`$&#123;match.url&#125;/components`&#125;&gt;Components&lt;/Link&gt;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">      &lt;li&gt;</span><br><span class="line">        &lt;Link to=&#123;`$&#123;match.url&#125;/props-v-state`&#125;&gt;Props v. State&lt;/Link&gt;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Route path=&#123;`$&#123;match.url&#125;/:topicId`&#125; component=&#123;Topic&#125; /&gt;</span><br><span class="line">    &lt;Route</span><br><span class="line">      exact</span><br><span class="line">      path=&#123;match.url&#125;</span><br><span class="line">      render=&#123;() =&gt; &lt;h3&gt;Please select a topic.&lt;/h3&gt;&#125;</span><br><span class="line">    /&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">const Topic = (&#123; match &#125;) =&gt; (</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h3&gt;&#123;match.params.topicId&#125;&lt;/h3&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">export default BasicExample;</span><br></pre></td></tr></table></figure>
+<p>上面的例子中，可以看出一个路由节点主要使用<code>Route</code>，由 path 和组件(render 或 component)组成，导航栏则是使用<code>Link</code>，在 dva 也是类似如此，只是这里的<code>Route</code>和<code>Link</code>是根据配置动态生成的。</p>
+<h2 id="一个大致的流程"><a href="#一个大致的流程" class="headerlink" title="一个大致的流程"></a>一个大致的流程</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>在<code>src/common/menu.js</code>配置里导航栏，在<code>src/common/router.js</code>中配置了 path 和组件的关系，如下图：<img src="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-11/88394112.jpg" alt=""></p>
+<h3 id="外层路由配置"><a href="#外层路由配置" class="headerlink" title="外层路由配置"></a>外层路由配置</h3><p>在<code>src/router.js</code>中，配置了最外层的路由。这里主要是用于控制页面进入后台管理系统还是进入登陆页面。ant design pro 中生成框架时定义<code>/user/*</code>相关的路由是用于用户登录等操作，其他操作则是<code>/*</code>路径，从下面的配置中可以看出，如果匹配到了<code>/user/*</code>的路径会使用<code>UserLayout</code>组件，而其他页面会使用<code>BasicLayout</code>组件（<code>AuthorizedRoute</code>组件还用于判断权限，如果没有权限则跳转到<code>/user/login</code>，即登陆页面）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;Switch&gt;</span><br><span class="line">  &lt;Route path=&quot;/user&quot; component=&#123;UserLayout&#125; /&gt;</span><br><span class="line">  &lt;AuthorizedRoute</span><br><span class="line">    path=&quot;/screen&quot;</span><br><span class="line">    render=&#123;props =&gt; &lt;ScreenLayout &#123;...props&#125; /&gt;&#125;</span><br><span class="line">    authority=&#123;[&apos;admin&apos;]&#125;</span><br><span class="line">    redirectPath=&quot;/user/login&quot;</span><br><span class="line">  /&gt;</span><br><span class="line">  &lt;AuthorizedRoute</span><br><span class="line">    path=&quot;/&quot;</span><br><span class="line">    render=&#123;props =&gt; &lt;BasicLayout &#123;...props&#125; /&gt;&#125;</span><br><span class="line">    authority=&#123;[&apos;admin&apos;]&#125;</span><br><span class="line">    redirectPath=&quot;/user/login&quot;</span><br><span class="line">  /&gt;</span><br><span class="line">&lt;/Switch&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="里层路由配置"><a href="#里层路由配置" class="headerlink" title="里层路由配置"></a>里层路由配置</h3><p>在<code>src/layouts/BasicLayout.js</code>中，配置了系统里层的路由配置。这里使用的是 antd 的<a href="http://ant-design.gitee.io/components/layout-cn/" target="_blank" rel="noopener">Layout</a>组件，对系统的导航栏，Header，Footer 做了全局的配置，以及对应路由内容的显示，一般结构如下：</p>
+<p><img src="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-11/38172382.jpg" alt=""></p>
+<p>这里的难点主要是如何根据上面配置动态生成导航栏和显示对应的内容。</p>
+<h3 id="内容显示"><a href="#内容显示" class="headerlink" title="内容显示"></a>内容显示</h3><ol>
+<li><p>重定向到子页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;redirectData.map(item =&gt; (</span><br><span class="line">	&lt;Redirect key=&#123;item.from&#125; exact from=&#123;item.from&#125; to=&#123;item.to&#125; /&gt;</span><br><span class="line">))&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的作用是，比如系统管理的路径<code>/system</code>，下面第一个页面是账户管理路径<code>/system/systemUser</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    name: &apos;系统管理&apos;,</span><br><span class="line">    icon: &apos;system&apos;,</span><br><span class="line">    path: &apos;system&apos;,</span><br><span class="line">    children: [&#123;</span><br><span class="line">      name: &apos;账户管理&apos;,</span><br><span class="line">      path: &apos;systemUser&apos;,</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果访问<code>/system</code>，会自动重定向到<code>/system/systemUser</code>（因为<code>/system</code>是没有页面的）</p>
+</li>
+<li><p>显示当前的路由的页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;getRoutes(match.path, routerData).map(item =&gt; (</span><br><span class="line">  &lt;AuthorizedRoute</span><br><span class="line">    key=&#123;item.key&#125;</span><br><span class="line">    path=&#123;item.path&#125;</span><br><span class="line">    component=&#123;item.component&#125;</span><br><span class="line">    exact=&#123;item.exact&#125;</span><br><span class="line">    authority=&#123;item.authority&#125;</span><br><span class="line">    redirectPath=&quot;/exception/403&quot;</span><br><span class="line">    /&gt;</span><br><span class="line">))&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// src/components/Authorized/AuthorizedRoute.js</span><br><span class="line">// 根据权限规则判断，如果有权限则正常访问页面，否则就访问redirectPath，即/exception/403</span><br><span class="line">&lt;Authorized</span><br><span class="line">  authority=&#123;authority&#125;</span><br><span class="line">  noMatch=&#123;</span><br><span class="line">    &lt;Route</span><br><span class="line">      &#123;...rest&#125;</span><br><span class="line">      render=&#123;() =&gt; &lt;Redirect to=&#123;&#123; pathname: redirectPath &#125;&#125; /&gt;&#125;</span><br><span class="line">    /&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&gt;</span><br><span class="line">  &lt;Route</span><br><span class="line">    &#123;...rest&#125;</span><br><span class="line">    render=&#123;props =&gt;</span><br><span class="line">      (Component ? &lt;Component &#123;...props&#125; /&gt; : render(props))</span><br><span class="line">    &#125;</span><br><span class="line">  /&gt;</span><br><span class="line">&lt;/Authorized&gt;</span><br></pre></td></tr></table></figure>
+<p>这里就会通过<code>Route</code>组件，将 Layout 中的 Content 区域渲染为对应的内容。</p>
+</li>
+<li><p>默认路由，这里定义如果访问<code>/</code>这个路径，重定向到哪个路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Redirect exact from=&quot;/&quot; to=&#123;bashRedirect&#125; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>路由 NoFound，这里定义如果找不到对应的地址，访问的页面，即 404 页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Route render=&#123;NotFound&#125; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="导航栏"><a href="#导航栏" class="headerlink" title="导航栏"></a>导航栏</h3><p>pro 生成的时候提供了导航栏组件<code>SiderMenu</code>，但是因为我们需要自定义的导航栏的需求，这里是使用自己写的导航栏</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// src/layouts/BasicLayout.js</span><br><span class="line">// 传入当前的权限数据，导航栏数据和当前的路由</span><br><span class="line">&lt;LeftSiderMenu</span><br><span class="line">  currentPermission=&#123;currentPermission&#125;</span><br><span class="line">  menuData=&#123;getMenuData()&#125;</span><br><span class="line">  location=&#123;location&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// src/components/LeftSiderMenu</span><br><span class="line">// 首先根据传入的权限数据对导航栏数据进行筛选，然后通过Link生成导航栏，点击就跳转到对应的路由</span><br><span class="line">&lt;div className=&#123;styles.menuContainer&#125;&gt;</span><br><span class="line">  &lt;ul className=&#123;styles.siderMenuUl&#125;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">      subMenuList &amp;&amp; subMenuList.children &amp;&amp; subMenuList.children.map(item =&gt; (</span><br><span class="line">        this.isMenuAuthorized(item) &amp;&amp; (</span><br><span class="line">          &lt;Link key=&#123;item.path&#125; to=&#123;`/$&#123;item.path&#125;`&#125; replace&gt;</span><br><span class="line">            &lt;li className=&#123;`$&#123;parentMenu&#125;/$&#123;subMenu&#125;` === item.path ? styles.active : &apos;&apos;&#125;&gt;</span><br><span class="line">              &lt;div className=&#123;styles.itemBorder&#125; /&gt;</span><br><span class="line">              &lt;div className=&#123;styles.itemIcon&#125; /&gt;</span><br><span class="line">              &lt;div className=&#123;styles.itemContent&#125;&gt;</span><br><span class="line">                &lt;span&gt;&#123;item.name&#125;&lt;/span&gt;</span><br><span class="line">              &lt;/div&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">          &lt;/Link&gt;</span><br><span class="line">        )</span><br><span class="line">      ))</span><br><span class="line">    &#125;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+            <a href="/tags/ant-design-pro/" rel="tag"># ant design pro</a>
+          
+            <a href="/tags/dva/" rel="tag"># dva</a>
+          
+            <a href="/tags/教程/" rel="tag"># 教程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/09/dva中的connect注解使用/" rel="next" title="dva中的connect注解使用">
+                <i class="fa fa-chevron-left"></i> dva中的connect注解使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/12/技术栈/" rel="prev" title="技术栈">
+                技术栈 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wxc</p>
+              <p class="site-description motion-element" itemprop="description">前端/js/react/vue</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#react-router"><span class="nav-number">1.</span> <span class="nav-text">react-router</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个大致的流程"><span class="nav-number">2.</span> <span class="nav-text">一个大致的流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外层路由配置"><span class="nav-number">2.2.</span> <span class="nav-text">外层路由配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#里层路由配置"><span class="nav-number">2.3.</span> <span class="nav-text">里层路由配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内容显示"><span class="nav-number">2.4.</span> <span class="nav-text">内容显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导航栏"><span class="nav-number">2.5.</span> <span class="nav-text">导航栏</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wxc</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

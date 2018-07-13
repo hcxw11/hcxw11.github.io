@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="node.js-异步 I/O18 年 1 月份内部分享时用的 node ppt 整理 背景环境 异步最早出现在操作系统的底层，通过信号量、消息等方式有广泛的应用 伴随着 AJAX(Asynchronous JavaScript and XML)席卷了 Web，前端编程中充斥着各种 AJAX 和事件，这些都是典型的异步应用场景。在 Node 出现前，前端工程师是最习惯异步编程的程序员 在大多数高级编">
+<meta name="keywords" content="分享,node ppt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="异步I&#x2F;O分享">
+<meta property="og:url" content="http://yoursite.com/2018/01/14/异步I-O分享/index.html">
+<meta property="og:site_name" content="吴某某嗯">
+<meta property="og:description" content="node.js-异步 I/O18 年 1 月份内部分享时用的 node ppt 整理 背景环境 异步最早出现在操作系统的底层，通过信号量、消息等方式有广泛的应用 伴随着 AJAX(Asynchronous JavaScript and XML)席卷了 Web，前端编程中充斥着各种 AJAX 和事件，这些都是典型的异步应用场景。在 Node 出现前，前端工程师是最习惯异步编程的程序员 在大多数高级编">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/1516017516611.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/1516082271306.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/1516082228190.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/IMG_20180117_104414-min.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/IMG_20180117_101605-min.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E5%AF%B9%E8%A7%82%E5%AF%9F%E8%80%85%E7%9A%84%E6%A3%80%E6%9F%A5%E9%A1%BA%E5%BA%8F%E5%89%AF%E6%9C%AC.jpg">
+<meta property="og:updated_time" content="2018-07-12T15:31:05.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="异步I&#x2F;O分享">
+<meta name="twitter:description" content="node.js-异步 I/O18 年 1 月份内部分享时用的 node ppt 整理 背景环境 异步最早出现在操作系统的底层，通过信号量、消息等方式有广泛的应用 伴随着 AJAX(Asynchronous JavaScript and XML)席卷了 Web，前端编程中充斥着各种 AJAX 和事件，这些都是典型的异步应用场景。在 Node 出现前，前端工程师是最习惯异步编程的程序员 在大多数高级编">
+<meta name="twitter:image" content="http://oy1qb3tnj.bkt.clouddn.com/1516017516611.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/14/异步I-O分享/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>异步I/O分享 | 吴某某嗯</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">吴某某嗯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/14/异步I-O分享/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wxc">
+      <meta itemprop="description" content="前端/js/react/vue">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吴某某嗯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">异步I/O分享
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-14 16:20:43" itemprop="dateCreated datePublished" datetime="2018-01-14T16:20:43+08:00">2018-01-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-12 23:31:05" itemprop="dateModified" datetime="2018-07-12T23:31:05+08:00">2018-07-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="node-js-异步-I-O"><a href="#node-js-异步-I-O" class="headerlink" title="node.js-异步 I/O"></a>node.js-异步 I/O</h1><p>18 年 1 月份内部分享时用的 node ppt 整理</p>
+<h1 id="背景环境"><a href="#背景环境" class="headerlink" title="背景环境"></a>背景环境</h1><ul>
+<li>异步最早出现在操作系统的底层，通过信号量、消息等方式有广泛的应用</li>
+<li>伴随着 AJAX(<strong>Asynchronous JavaScript and XML</strong>)席卷了 Web，前端编程中充斥着各种 AJAX 和事件，这些都是典型的异步应用场景。在 Node 出现前，前端工程师是最习惯异步编程的程序员</li>
+<li>在大多数高级编程语言中，习惯采用同步的方式编写应用——<strong>异步不适合进行程序设计</strong></li>
+<li>Node 是首个将异步作为主要的编程方式和设计理念的，伴随着异步 I/O 的还有<strong>事件驱动</strong>和<strong>单线程</strong>，一同构成 Node 的基调</li>
+</ul>
+<h1 id="为什么要异步-I-O"><a href="#为什么要异步-I-O" class="headerlink" title="为什么要异步 I/O"></a>为什么要异步 I/O</h1><ul>
+<li>用户体验</li>
+<li>资源分配</li>
+</ul>
+<h1 id="用户体验"><a href="#用户体验" class="headerlink" title="用户体验"></a>用户体验</h1><ul>
+<li>如果网页需要获取一个网络资源，通过同步的方式获取，那么在获取资源资源的这段时间里 UI 将停顿，用户体验会很差。所以在资源下载期间，需要通过异步消除 UI 阻塞现象</li>
+<li>并发请求资源，后端快速响应资源</li>
+<li><img src="http://oy1qb3tnj.bkt.clouddn.com/1516017516611.jpg" alt=""></li>
+</ul>
+<h1 id="系统资源分配"><a href="#系统资源分配" class="headerlink" title="系统资源分配"></a>系统资源分配</h1><h2 id="多线程和单线程"><a href="#多线程和单线程" class="headerlink" title="多线程和单线程"></a>多线程和单线程</h2><p>多线程并行完成</p>
+<ul>
+<li>在多核 CPU 上面能够有效<strong>提升 CPU 的利用率</strong></li>
+<li>创建线程和执行期线程上下文切换的开销大常常<strong>面临锁、状态同步等问题</strong></li>
+</ul>
+<p>单线程串行完成</p>
+<ul>
+<li>符合顺序思考的思维方式，<strong>易于表达</strong></li>
+<li>性能较低，一个略慢的任务都会导致后续执行代码被<strong>阻塞</strong></li>
+</ul>
+<h1 id="两种模型对比"><a href="#两种模型对比" class="headerlink" title="两种模型对比"></a>两种模型对比</h1><p><img src="http://oy1qb3tnj.bkt.clouddn.com/1516082271306.jpg" alt=""></p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/1516082228190.jpg" alt=""></p>
+<h1 id="Node-的选择"><a href="#Node-的选择" class="headerlink" title="Node 的选择"></a>Node 的选择</h1><ul>
+<li><p>使用单线程，远离多线程死锁、状态同步等问题，减少资源使用</p>
+</li>
+<li><p>利用异步 IO，让主线程远离阻塞，提高 CPU 使用效率</p>
+<p>​</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/IMG_20180117_104414-min.jpg" alt=""></p>
+</li>
+</ul>
+<h1 id="异步-IO-的实现"><a href="#异步-IO-的实现" class="headerlink" title="异步 IO 的实现"></a>异步 IO 的实现</h1><ul>
+<li>事件循环</li>
+<li>观察者</li>
+<li>请求对象</li>
+<li>执行回调</li>
+</ul>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/IMG_20180117_101605-min.jpg" alt=""></p>
+<h1 id="Node-的特点"><a href="#Node-的特点" class="headerlink" title="Node 的特点"></a>Node 的特点</h1><ul>
+<li>异步 I/O</li>
+<li>事件与回调函数</li>
+<li>单线程</li>
+<li>跨平台</li>
+</ul>
+<blockquote>
+<p>Node 通过事件驱动的方式处理请求，无须为每一个请求创建额外的对应线程，可以省掉创建线程和销毁线程的开销，同时操作系统在调度任务时因为线程较少，上下文切换的代价很低，这使得服务器能够有条不紊地处理请求，即使在大量连接的情况下，也不受线程上下文切换开销的影响。</p>
+</blockquote>
+<h1 id="Node-的问题"><a href="#Node-的问题" class="headerlink" title="Node 的问题"></a>Node 的问题</h1><ul>
+<li>异步编程容易造成逻辑混乱，使用异步的方式控制任务顺序执行（Promise，async/await）</li>
+<li>单线程的弱点（Web Workers，Nnigx 反向代理，负载均衡，开多个进程，绑定多个端口）<ul>
+<li>无法利用多核 CPU</li>
+<li>错误会引起整个应用退出，应用的健壮性存在问题</li>
+<li>大量计算占用 CPU 导致无法继续调用异步 IO</li>
+</ul>
+</li>
+</ul>
+<h1 id="Node-的应用场景"><a href="#Node-的应用场景" class="headerlink" title="Node 的应用场景"></a>Node 的应用场景</h1><ul>
+<li>擅长处理 I/O 密集型任务，不擅长处理 CPU 密集型任务。</li>
+<li>高并发业务</li>
+<li>长链接</li>
+</ul>
+<h1 id="非-I-O-的异步-API"><a href="#非-I-O-的异步-API" class="headerlink" title="非 I/O 的异步 API"></a>非 I/O 的异步 API</h1><ul>
+<li>定时器</li>
+<li>process.nextTick()</li>
+<li>setImmediate()</li>
+</ul>
+<h1 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h1><h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout()和 setInterval()"></a>setTimeout()和 setInterval()</h2><p>和浏览器中的 API 是一致的，分别用于单次和多次定时执行任务。</p>
+<p>调用 setTimeout()或者 setInterval()创建的<strong>定时器对象</strong>会被插入到<strong>定时器观察者</strong>中，每次<strong>事件循环</strong>，定时器观察者都会取出定时器对象，检查是否超时，如果超时，就形成一个事件，调用对应的<strong>回调函数</strong></p>
+<p>定时器是<strong>非精确</strong>的（在容忍范围内），如果某一次循环占用的时间较多，那么下次循环时，它也许已经超时很久了。</p>
+<h1 id="process-nextTick"><a href="#process-nextTick" class="headerlink" title="process.nextTick()"></a>process.nextTick()</h1><p>立即异步执行一个任务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function () &#123;</span><br><span class="line">  // TODO</span><br><span class="line">&#125;, 0)</span><br></pre></td></tr></table></figure>
+<p>setTimeout 较为浪费性能，在 node 环境下使用 process.nextTick()更高效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(function () &#123;</span><br><span class="line">  // TODO</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>process.nextTick()只会将回调函数放入队列中，在下一轮事件循环时取出执行，时间复杂度为 O(1)，而定时器由于需要检索寻找符合条件的任务返回，时间复杂度为 O(lg(n))</p>
+<h1 id="setImmediate"><a href="#setImmediate" class="headerlink" title="setImmediate()"></a>setImmediate()</h1><p>setImmediate()和 process.nextTick()方法类似，都是立即异步执行一个任务。</p>
+<p>区别:</p>
+<ol>
+<li><p>优先级</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E5%AF%B9%E8%A7%82%E5%AF%9F%E8%80%85%E7%9A%84%E6%A3%80%E6%9F%A5%E9%A1%BA%E5%BA%8F%E5%89%AF%E6%9C%AC.jpg" alt=""></p>
+</li>
+<li><p>process.nextTick()用数组实现用 1000 的长度限制，setImmediate()用链表实现没有长度限制</p>
+</li>
+<li><p>在 setImmediate 中，如果一个立即异步任务是被一个正在执行的回调排入队列的，则该立即异步任务直到下一次事件循环才会被触发。</p>
+</li>
+</ol>
+<h1 id="谢谢！"><a href="#谢谢！" class="headerlink" title="谢谢！"></a>谢谢！</h1><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2013/10/event_loop.html" target="_blank" rel="noopener">什么是 Event Loop?</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="noopener">使用异步 I/O 大大提高应用程序的性能</a></li>
+<li><a href="http://zhuanlan.zhihu.com/p/28527741" target="_blank" rel="noopener">C++ in Node.js 业务场景及开发实现 - crcrcry 的文章 - 知乎</a></li>
+<li><a href="http://nodejs.cn/api/process.html#process_process_nexttick_callback_args" target="_blank" rel="noopener">node.js API 文档 process.nextTick(callback[, …args])</a></li>
+<li><a href="http://nodejs.cn/api/timers.html#timers_setimmediate_callback_args" target="_blank" rel="noopener">node.js API 文档 setImmediate(callback[, …args])</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分享/" rel="tag"># 分享</a>
+          
+            <a href="/tags/node-ppt/" rel="tag"># node ppt</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/19/ory editor/" rel="next" title="ORY Editor入门指南">
+                <i class="fa fa-chevron-left"></i> ORY Editor入门指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/15/egg中的路由和中间件/" rel="prev" title="egg中的路由和中间件">
+                egg中的路由和中间件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wxc</p>
+              <p class="site-description motion-element" itemprop="description">前端/js/react/vue</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#node-js-异步-I-O"><span class="nav-number">1.</span> <span class="nav-text">node.js-异步 I/O</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景环境"><span class="nav-number">2.</span> <span class="nav-text">背景环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要异步-I-O"><span class="nav-number">3.</span> <span class="nav-text">为什么要异步 I/O</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用户体验"><span class="nav-number">4.</span> <span class="nav-text">用户体验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统资源分配"><span class="nav-number">5.</span> <span class="nav-text">系统资源分配</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程和单线程"><span class="nav-number">5.1.</span> <span class="nav-text">多线程和单线程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#两种模型对比"><span class="nav-number">6.</span> <span class="nav-text">两种模型对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-的选择"><span class="nav-number">7.</span> <span class="nav-text">Node 的选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步-IO-的实现"><span class="nav-number">8.</span> <span class="nav-text">异步 IO 的实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-的特点"><span class="nav-number">9.</span> <span class="nav-text">Node 的特点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-的问题"><span class="nav-number">10.</span> <span class="nav-text">Node 的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-的应用场景"><span class="nav-number">11.</span> <span class="nav-text">Node 的应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#非-I-O-的异步-API"><span class="nav-number">12.</span> <span class="nav-text">非 I/O 的异步 API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定时器"><span class="nav-number">13.</span> <span class="nav-text">定时器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#setTimeout-和-setInterval"><span class="nav-number">13.1.</span> <span class="nav-text">setTimeout()和 setInterval()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#process-nextTick"><span class="nav-number">14.</span> <span class="nav-text">process.nextTick()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setImmediate"><span class="nav-number">15.</span> <span class="nav-text">setImmediate()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#谢谢！"><span class="nav-number">16.</span> <span class="nav-text">谢谢！</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wxc</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

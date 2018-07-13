@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="用时两个星期做的大屏，还是觉得上一个大屏好看一些。 总体结构  关于不同分辨率适配 使用作为 vh 和 vw 长度单位，并设置 max 和 min 值，防止页面过度变形。  根据 Dashboard 组件的高度动态计算每个图表的高度，防止图表出现重叠  Dashboard 中监听 resize 事件，实时地获取显示区域的 height 在 LeftBoard 和 RightBoard 中，依据传入">
+<meta name="keywords" content="react,项目总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目综合态势v1.0大屏总结">
+<meta property="og:url" content="http://yoursite.com/2018/06/22/综合态势v1.0大屏总结/index.html">
+<meta property="og:site_name" content="吴某某嗯">
+<meta property="og:description" content="用时两个星期做的大屏，还是觉得上一个大屏好看一些。 总体结构  关于不同分辨率适配 使用作为 vh 和 vw 长度单位，并设置 max 和 min 值，防止页面过度变形。  根据 Dashboard 组件的高度动态计算每个图表的高度，防止图表出现重叠  Dashboard 中监听 resize 事件，实时地获取显示区域的 height 在 LeftBoard 和 RightBoard 中，依据传入">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-2/40109295.jpg">
+<meta property="og:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-6-22/92058435.jpg">
+<meta property="og:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-6-22/355403.jpg">
+<meta property="og:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-2/68321113.jpg">
+<meta property="og:updated_time" content="2018-07-12T15:56:50.075Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="项目综合态势v1.0大屏总结">
+<meta name="twitter:description" content="用时两个星期做的大屏，还是觉得上一个大屏好看一些。 总体结构  关于不同分辨率适配 使用作为 vh 和 vw 长度单位，并设置 max 和 min 值，防止页面过度变形。  根据 Dashboard 组件的高度动态计算每个图表的高度，防止图表出现重叠  Dashboard 中监听 resize 事件，实时地获取显示区域的 height 在 LeftBoard 和 RightBoard 中，依据传入">
+<meta name="twitter:image" content="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-2/40109295.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/22/综合态势v1.0大屏总结/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>项目综合态势v1.0大屏总结 | 吴某某嗯</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">吴某某嗯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/22/综合态势v1.0大屏总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wxc">
+      <meta itemprop="description" content="前端/js/react/vue">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吴某某嗯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">项目综合态势v1.0大屏总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-22 15:47:49" itemprop="dateCreated datePublished" datetime="2018-06-22T15:47:49+08:00">2018-06-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-12 23:56:50" itemprop="dateModified" datetime="2018-07-12T23:56:50+08:00">2018-07-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>用时两个星期做的大屏，还是觉得上一个大屏好看一些。</p>
+<h2 id="总体结构"><a href="#总体结构" class="headerlink" title="总体结构"></a>总体结构</h2><p><img src="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-2/40109295.jpg" alt=""></p>
+<p><img src="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-6-22/92058435.jpg" alt=""></p>
+<h2 id="关于不同分辨率适配"><a href="#关于不同分辨率适配" class="headerlink" title="关于不同分辨率适配"></a>关于不同分辨率适配</h2><ul>
+<li><p>使用作为 vh 和 vw 长度单位，并设置 max 和 min 值，防止页面过度变形。</p>
+</li>
+<li><p>根据 Dashboard 组件的高度动态计算每个图表的高度，防止图表出现重叠</p>
+<ol>
+<li>Dashboard 中监听 resize 事件，实时地获取显示区域的 height</li>
+<li>在 LeftBoard 和 RightBoard 中，依据传入的 height 和 count 参数计算每个图表区域（附带标题 ）的高度。因为长度使用了 vh vw 作为单位，所以需要使用 ref 和 getComputedStyle()转化为 px 计算。</li>
+</ol>
+<p><img src="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-6-22/355403.jpg" alt=""></p>
+<ol start="3">
+<li>在 withTitle 中，计算去标题后的图表大小</li>
+</ol>
+</li>
+</ul>
+<h2 id="定时器控制"><a href="#定时器控制" class="headerlink" title="定时器控制"></a>定时器控制</h2><ul>
+<li>定时器放在 model 里面生成、销毁(定时器放在子组件中，耦合度低但是开销大；放在父组件中，耦合度高开销大)</li>
+<li>使用 saga 的 race 方法(<a href="https://redux-saga-in-chinese.js.org/docs/advanced/RacingEffects.html" target="_blank" rel="noopener">参考链接</a>)，判断 delay(延迟)和取消任务哪个先到来。如果在一个延时周期内，外部没有触发 endTimer 的 action，则执行对应的操作，然后开始下一个周期；如果外部触发了 endTimer，此时 cancel 有值，循环结果，即定时器关闭。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">*interval(&#123; payload &#125;, &#123; race, take &#125;) &#123;</span><br><span class="line">  // 延时时长和操作</span><br><span class="line">  const &#123; time, callback &#125; = payload;</span><br><span class="line">  let finished = false;</span><br><span class="line"></span><br><span class="line">  while (!finished) &#123;</span><br><span class="line">    ...</span><br><span class="line">    // 执行对应的操作</span><br><span class="line">		callback();</span><br><span class="line">    ...</span><br><span class="line">    const &#123; cancel &#125; = yield race(&#123;</span><br><span class="line">      delay: delay(time),</span><br><span class="line">      cancel: take(&apos;endTimer&apos;),</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    if (cancel) &#123;</span><br><span class="line">      finished = true;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="地图"><a href="#地图" class="headerlink" title="地图"></a>地图</h2><h3 id="设备点"><a href="#设备点" class="headerlink" title="设备点"></a>设备点</h3><p>在 mapUtils 中封装了一个创建点的方法，具体的显示在 content 中传入 html，另外在 marker 中保存点信息，在需要获取点信息的地方，通过<code>marker.getExtData()</code>获取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  /**</span><br><span class="line">   * 增加一个点</span><br><span class="line">   * @param &#123;object&#125; point 点信息</span><br><span class="line">   * @param &#123;string&#125; showType 显示模式(project、group)</span><br><span class="line">   * @param &#123;object&#125; options 点的其他参数</span><br><span class="line">   */</span><br><span class="line">drawOnePoint(point, showType, options = &#123;&#125;) &#123;</span><br><span class="line">  const marker = new AMap.Marker(&#123;</span><br><span class="line">    position: point.coordinate,</span><br><span class="line">    // 显示的内容</span><br><span class="line">    content: getMarkerContent(point, showType),</span><br><span class="line">    offset: new AMap.Pixel(-12, -12),</span><br><span class="line">    zIndex: 2000,</span><br><span class="line">    // animation: &apos;AMAP_ANIMATION_BOUNCE&apos;,</span><br><span class="line">    ...options,</span><br><span class="line">  &#125;);</span><br><span class="line">  marker.setExtData(&#123; ...point &#125;);</span><br><span class="line">  return marker;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="弹窗"><a href="#弹窗" class="headerlink" title="弹窗"></a>弹窗</h3><p>高德地图上的弹窗 api 是直接操作 dom 节点，插入 html 字符串，这种方式在简单的页面上比较方便，一旦页面有多个，并且需要动态加载数据之后会一下子变得很麻烦，所以这里使用 react-dom 来显示弹窗页面。</p>
+<ol>
+<li>首先创建窗体，此时窗体内容为<code>&lt;div id=&#39;xx&#39;&gt;&lt;/div&gt;</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  /**</span><br><span class="line">   * 构建自定义信息窗体</span><br><span class="line">   * @param &#123;object&#125; param 带有id属性的点信息</span><br><span class="line">   */</span><br><span class="line">createInfoWindow(&#123; id &#125;) &#123;</span><br><span class="line">  const info = document.createElement(&apos;div&apos;);</span><br><span class="line">  info.id = id;</span><br><span class="line">  const infoWindow = new AMap.InfoWindow(&#123;</span><br><span class="line">    isCustom: true, // 使用自定义窗体</span><br><span class="line">    content: info,</span><br><span class="line">    offset: new AMap.Pixel(16, -45),</span><br><span class="line">    autoMove: true,</span><br><span class="line">    closeWhenClickMap: true,</span><br><span class="line">  &#125;);</span><br><span class="line">  return infoWindow;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>绑定设备点和窗口的关系</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 绑定点和窗口</span><br><span class="line"> * @param &#123;AMap.Marker&#125; marker 地图上的点</span><br><span class="line"> * @param &#123;AMap.InfoWindow&#125; myWindow 地图上的窗口</span><br><span class="line"> * @param &#123;object&#125; PointWindow 用于渲染到地图窗口中的组件</span><br><span class="line"> */</span><br><span class="line">bindingMarkerWindow(marker, myWindow, PointWindow) &#123;</span><br><span class="line">  const deviceInfo = marker.getExtData();</span><br><span class="line">  // 鼠标点击marker弹出自定义的信息窗体</span><br><span class="line">  AMap.event.addListener(marker, &apos;click&apos;, () =&gt; &#123;</span><br><span class="line">    // 在点的位置打开窗口</span><br><span class="line">    myWindow.open(marker.getMap(), marker.getPosition());</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  // 打开窗口时渲染组件</span><br><span class="line">  AMap.event.addListener(myWindow, &apos;open&apos;, e =&gt; &#123;</span><br><span class="line">    // console.log(e, &apos;before&apos;, node, );</span><br><span class="line">    ReactDOM.render(</span><br><span class="line">      &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">        &lt;PointWindow deviceId=&#123;deviceInfo.id&#125; /&gt;</span><br><span class="line">      &lt;/Provider&gt;,</span><br><span class="line">      e.target.getContent()</span><br><span class="line">    );</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  // 关闭窗口时，从dom中删除组件</span><br><span class="line">  AMap.event.addListener(myWindow, &apos;close&apos;, () =&gt; &#123;</span><br><span class="line">    ReactDOM.unmountComponentAtNode(document.getElementById(deviceInfo.id));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p><strong>注</strong>：在渲染组件的时候，需要再外面包一层<code>&lt;Provider store={store}&gt;...&lt;/Provider&gt;</code>，将外面全局 redux 的 store 传入，不然<code>&lt;PointWindow /&gt;</code>中的<code>@connect()</code>将不能正常使用。react 渲染结果如下</p>
+<p><img src="http://wx-picture.oss-cn-hangzhou.aliyuncs.com/18-7-2/68321113.jpg" alt=""></p>
+<h2 id="图表"><a href="#图表" class="headerlink" title="图表"></a>图表</h2><p>使用 bizcharts 图表组件，图表的所有颜色定义等属性放在<code>constant.js</code>文件中，图表组件放在<code>components/Charts</code>中。</p>
+<h3 id="自定义形状"><a href="#自定义形状" class="headerlink" title="自定义形状"></a>自定义形状</h3><p>柱状图使用圆角矩形需要自己通过 canvas 绘制，在<code></code>components/Charts/g2.js`中添加新的形状，具体的使用参考<a href="https://github.com/alibaba/BizCharts/blob/master/doc/api/shape.md" target="_blank" rel="noopener">bizcharts-shape 文档</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 自定义 shape, 水平方向柱状图圆角矩形</span><br><span class="line">Shape.registerShape(&apos;interval&apos;, &apos;borderRadiusH&apos;, &#123;</span><br><span class="line">  draw(cfg, container) &#123;</span><br><span class="line">    const &#123; points &#125; = cfg;</span><br><span class="line">    const parsePoints = this.parsePoints(points); // 将 0 - 1 转化为画布坐标</span><br><span class="line">    let width = (parsePoints[2].x - parsePoints[1].x) * 0.6;</span><br><span class="line">    width = width &gt; MAX_WIDTH ? MAX_WIDTH : width;</span><br><span class="line">    const attrs = &#123;</span><br><span class="line">      x: (parsePoints[2].x + parsePoints[1].x - width) / 2, // 矩形起始点为左下角</span><br><span class="line">      y: parsePoints[1].y,</span><br><span class="line">      width,</span><br><span class="line">      height: parsePoints[0].y - parsePoints[1].y,</span><br><span class="line">      fill: cfg.color,</span><br><span class="line">      radius: width / 2,</span><br><span class="line">    &#125;;</span><br><span class="line">    return container.addShape(&apos;rect&apos;, &#123;</span><br><span class="line">      attrs,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>使用时在 shape 中使用之前注册形状即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Geom type=&quot;interval&quot; shape=&quot;borderRadiusH&quot; position=&quot;x*y&quot; color=&#123;color&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="自定义图例"><a href="#自定义图例" class="headerlink" title="自定义图例"></a>自定义图例</h3><ul>
+<li>加上 useHtml 代表使用 html 生成图例(默认为 canvas)</li>
+<li>containerTpl 控制图例的整体显示，itemTpl 控制图例中的每一项显示，推荐加上 g2 的相关 class 进行微调。</li>
+<li>如果不需要 html 修改结构，也可以通过 css 覆盖原有的 class 属性。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;Legend</span><br><span class="line">  position=&quot;top&quot;</span><br><span class="line">  useHtml</span><br><span class="line">  containerTpl=&#123;`</span><br><span class="line">    &lt;div class=&quot;g2-legend topLegend&quot;&gt;</span><br><span class="line">      &lt;h4 class=&quot;g2-legend-title&quot;&gt;&lt;/h4&gt;</span><br><span class="line">      &lt;ul class=&quot;g2-legend-list&quot; style=&quot;list-style-type:none;margin:0;padding:0;&quot;&gt;&lt;/ul&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  `&#125;</span><br><span class="line">  itemTpl=&#123;(value, itemColor, checked, index) =&gt; &#123;</span><br><span class="line">    return `&lt;tr</span><br><span class="line">      class=&quot;g2-legend-list-item item-$&#123;index&#125; $&#123;checked ? &apos;checked&apos; : &apos;unChecked&apos;&#125;&quot;</span><br><span class="line">      data-value=&quot;$&#123;value&#125;&quot;</span><br><span class="line">      data-color=$&#123;color[value]&#125; &gt;</span><br><span class="line">        &lt;td &gt;</span><br><span class="line">          &lt;i class=&quot;g2-legend-marker&quot; style=&quot;width:10px;height:10px;display:inline-block;margin-right:10px;background-color:$&#123;</span><br><span class="line">          color[value]</span><br><span class="line">          &#125;;&quot;&gt;&lt;/i&gt;</span><br><span class="line">        &lt;span  class=&quot;g2-legend-text title&quot;&gt;$&#123;value&#125;&lt;/span&gt;&lt;/td&gt;</span><br><span class="line">    	&lt;/tr&gt;`;</span><br><span class="line">  &#125;&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="图表混合"><a href="#图表混合" class="headerlink" title="图表混合"></a>图表混合</h3><p>面积图和折线图混合，是一份数据同时画两个图表，每个图表中设置一个数据为透明，这样两个图表叠加起来，就看起来是一个面积图案加一个折线图案。</p>
+<h3 id="颜色渐变"><a href="#颜色渐变" class="headerlink" title="颜色渐变"></a>颜色渐变</h3><p>通过设置图表颜色为<code>l(90) 0:#4DE8E9 1:#408ca8e6</code>来显示渐变<br><a href="https://antv.alipay.com/zh-cn/g2/3.x/api/graphic.html#_%E6%B8%90%E5%8F%98%E8%89%B2" target="_blank" rel="noopener">渐变色文档</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+            <a href="/tags/项目总结/" rel="tag"># 项目总结</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/10/ant-design-pro中的权限控制/" rel="next" title="ant design pro中的权限控制">
+                <i class="fa fa-chevron-left"></i> ant design pro中的权限控制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/09/dva中的connect注解使用/" rel="prev" title="dva中的connect注解使用">
+                dva中的connect注解使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wxc</p>
+              <p class="site-description motion-element" itemprop="description">前端/js/react/vue</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总体结构"><span class="nav-number">1.</span> <span class="nav-text">总体结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于不同分辨率适配"><span class="nav-number">2.</span> <span class="nav-text">关于不同分辨率适配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定时器控制"><span class="nav-number">3.</span> <span class="nav-text">定时器控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#地图"><span class="nav-number">4.</span> <span class="nav-text">地图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设备点"><span class="nav-number">4.1.</span> <span class="nav-text">设备点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弹窗"><span class="nav-number">4.2.</span> <span class="nav-text">弹窗</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图表"><span class="nav-number">5.</span> <span class="nav-text">图表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义形状"><span class="nav-number">5.1.</span> <span class="nav-text">自定义形状</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义图例"><span class="nav-number">5.2.</span> <span class="nav-text">自定义图例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图表混合"><span class="nav-number">5.3.</span> <span class="nav-text">图表混合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#颜色渐变"><span class="nav-number">5.4.</span> <span class="nav-text">颜色渐变</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wxc</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

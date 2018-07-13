@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="因为工作需要借鉴了此编辑器，发现官方的教程有些过时了，而且有些地方有错误，所以特地翻译成了中文，并做了一点修正。 原git项目地址：https://github.com/ory/editor  [TOC] 介绍欢迎来到ORY Editor指南。请注意，ORY Editor需要大量的ReactJS知识，构建工具如webpack以及ES6。 示范眼见为实，所以让我们从一个演示开始！  这是示例程序，">
+<meta name="keywords" content="react,可视化编辑器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ORY Editor入门指南">
+<meta property="og:url" content="http://yoursite.com/2017/12/19/ory editor/index.html">
+<meta property="og:site_name" content="吴某某嗯">
+<meta property="og:description" content="因为工作需要借鉴了此编辑器，发现官方的教程有些过时了，而且有些地方有错误，所以特地翻译成了中文，并做了一点修正。 原git项目地址：https://github.com/ory/editor  [TOC] 介绍欢迎来到ORY Editor指南。请注意，ORY Editor需要大量的ReactJS知识，构建工具如webpack以及ES6。 示范眼见为实，所以让我们从一个演示开始！  这是示例程序，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://storage.googleapis.com/ory.am/inline-edit-lg.gif">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/content-cell.png">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/layout-cell.gif">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/content-cell.png">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/30C0C14A-2AD4-4F8F-A13B-FA363B8764F8.png">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/8E9157B2-3159-4126-84DE-7401C437E198.png">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/1513832631360.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/1513832349623.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/1513832864579.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/1513832905392.jpg">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/text-editing-plugin.gif">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/image-plugin.gif">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/video-plugin.gif">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/spacer-plugin.gif">
+<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/parallax-background.gif">
+<meta property="og:updated_time" content="2018-05-14T11:48:03.486Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ORY Editor入门指南">
+<meta name="twitter:description" content="因为工作需要借鉴了此编辑器，发现官方的教程有些过时了，而且有些地方有错误，所以特地翻译成了中文，并做了一点修正。 原git项目地址：https://github.com/ory/editor  [TOC] 介绍欢迎来到ORY Editor指南。请注意，ORY Editor需要大量的ReactJS知识，构建工具如webpack以及ES6。 示范眼见为实，所以让我们从一个演示开始！  这是示例程序，">
+<meta name="twitter:image" content="https://storage.googleapis.com/ory.am/inline-edit-lg.gif">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/19/ory editor/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ORY Editor入门指南 | 吴某某嗯</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">吴某某嗯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/19/ory editor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wxc">
+      <meta itemprop="description" content="前端/js/react/vue">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吴某某嗯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ORY Editor入门指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-19 18:56:00" itemprop="dateCreated datePublished" datetime="2017-12-19T18:56:00+08:00">2017-12-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-14 19:48:03" itemprop="dateModified" datetime="2018-05-14T19:48:03+08:00">2018-05-14</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>因为工作需要借鉴了此编辑器，发现官方的教程有些过时了，而且有些地方有错误，所以特地翻译成了中文，并做了一点修正。</p>
+<p>原git项目地址：<a href="https://github.com/ory/editor" target="_blank" rel="noopener">https://github.com/ory/editor</a></p>
+</blockquote>
+<p>[TOC]</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>欢迎来到ORY Editor指南。请注意，ORY Editor需要大量的ReactJS知识，构建工具如webpack以及ES6。</p>
+<h2 id="示范"><a href="#示范" class="headerlink" title="示范"></a>示范</h2><p>眼见为实，所以让我们从一个演示开始！</p>
+<p><img src="https://storage.googleapis.com/ory.am/inline-edit-lg.gif" alt="ORY编辑器演示"></p>
+<p>这是<a href="https://editor.ory.am/" target="_blank" rel="noopener">示例程序</a>，可以自己尝试一下！</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>现有的开源内容编辑解决方案有三个缺陷之一：</p>
+<ol>
+<li>不得不使用许多措施来防御XSS威胁。</li>
+<li>使用编辑器的作者必须学习一些语法，如markdown，才能编写内容。这些基于文本的解决方案通常无法指定布局，并且不能制作复杂的结构（如表格布局）。</li>
+<li>有前途的开源项目可能会遇到被维护者遗弃的问题，因为它可能只是别人用来打发空闲时间的项目。</li>
+</ol>
+<p>所以好的解决方案必须符合以下原则：</p>
+<ol>
+<li>状态是规范化的JSON对象，不涉及HTML，用来防止XSS。</li>
+<li>这是一个可视化编辑器，不需要编程经验或特殊培训。</li>
+<li>它由一家公司创建，减少了被遗弃的可能性。</li>
+<li>基于可重复使用的React组件，它为开发人员、作者和设计人员提供了新的工作方式，能更轻松更好地创建更丰富的体验。</li>
+<li>适配移动端。</li>
+</ol>
+<p>出于这些原则，作者制作了ORY Editor。</p>
+<h2 id="运行原理"><a href="#运行原理" class="headerlink" title="运行原理"></a>运行原理</h2><p>ORY Editor主要是一个创建和修改布局的工具，核心是<code>Cell</code>和<code>Row</code>。布局与<a href="https://v3.bootcss.com/css/#grid" target="_blank" rel="noopener">bootstrap栅格布局</a>非常相似。</p>
+<p>编辑器的最外层是<code>Editable</code>，一个<code>Editable</code>的示例性结构可能如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1. Editable</span><br><span class="line">+-1. Container cell</span><br><span class="line">  +-1. Row</span><br><span class="line">  | +-1. Cell (text)</span><br><span class="line">  | |-2. Cell (parallax background image)</span><br><span class="line">  |   +-1. Row </span><br><span class="line">  |     +-1. Cell (image)</span><br><span class="line">  |     |-2. Cell (image)</span><br><span class="line">  |-2. Row</span><br><span class="line">  | +-1. Cell (image)</span><br><span class="line">  | |-2. Cell (image)</span><br></pre></td></tr></table></figure>
+<p>有四种不同的数据类型：</p>
+<ol>
+<li><p><strong>Editable</strong>（结构树中的<code>1.</code>） - <code>Editable</code>是<code>Cell</code>和<code>Row</code>的容器。一个页面里可以有多个<code>Editable</code>，并且可以将<code>Cell</code>从一个<code>Editable</code>区域拖拽到另一个<code>Editable</code>区域。</p>
+<p>​</p>
+</li>
+<li><p><strong>Container cell</strong>（结构树中的<code>1.1</code>） - <code>Container cell</code>是一个没有插件的<code>Cell</code>，它为<code>Editable</code>提供结构。这些<code>Container cell</code>在需要时自动生成，并在不再需要时自动删除。</p>
+<p>​</p>
+</li>
+<li><p><strong>Content cell</strong>（结构树中的 <code>1.1.1</code>，<code>1.2.1</code>…） - <code>Content cell</code>格始终是树的一个叶子节点（它没有子节点），节点由<strong>内容插件</strong>定义（可由您编写或从npm下载）。内容插件通常是富文本，视频，音频，图片等等。</p>
+<p>​</p>
+</li>
+<li><p><strong>Layout cell</strong>  - <code>Layout cell</code>包含、嵌套<code>Cell</code>和<code>Row</code>（容器，内容，布局）的列表。<code>Layout cell</code>的作用是，它给子节点一个布局样式（比如布局内所有文字都是红色）。布局是由<strong>布局插件</strong>定义的。<code>Layout cell</code>必须至少有一个子节点，否则<code>Layout cell</code>将被自动删除。</p>
+</li>
+</ol>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/content-cell.png" alt="内容单元"></p>
+<center><em>带图片插件的Content cell</em></center>
+
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/layout-cell.gif" alt="布局单元格"></p>
+<center><em>具有可切换背景图像插件的Layout cell </em></center>
+
+
+
+<p>网格系统很好地集成到了ORY Editor中。它负责一切的拖拽逻辑、调整大小、焦点检测等等。作为开发人员，主要使用<strong>内容插件</strong>和<strong>布局插件</strong>来扩展功能，只需编写接收<code>onChange</code>，<code>readOnly</code>，<code>state</code>（编辑器产生）的简单ReactJS 组件，完整的数据模型交给ORY Editor。在后面的章节中学习插件如何正确工作，插件的外观以及如何编写自己的插件。</p>
+<h1 id="使用指南"><a href="#使用指南" class="headerlink" title="使用指南"></a>使用指南</h1><h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><p>ORY Editor的核心是<a href="https://www.npmjs.com/package/ory-editor-core" target="_blank" rel="noopener">ory-editor-core</a>。它包含创建和修改布局的逻辑，并负责处理插件。</p>
+<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><p>ORY Editor使用Redux store来管理内部状态。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Editor <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editor = <span class="keyword">new</span> Editor()</span><br></pre></td></tr></table></figure>
+<p>当创建一个新的<code>Editor</code>实例，Redux store也被创建。因此，在应用程序生命周期中必须仅实例化一次<code>Editor</code>（<em>单例</em>模式）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Editor <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editor = <span class="keyword">new</span> Editor()</span><br><span class="line"><span class="keyword">const</span> editor2 = <span class="keyword">new</span> Editor() <span class="comment">// 不要这样做！.</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>现在我们知道如何创建一个空的<code>Editor</code>。现在让我们加一些插件。我们将使用<em>ORY Editor资源库</em>提供的插件。我们称这些插件为“ory plugins”，因为它们是由官方编写和维护的。</p>
+<p>让我们为初学者做一个图片插件。图片插件是一个简单的内容插件，允许您通过图片URL来添加图像，目前不支持上传图片。</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/content-cell.png" alt="内容单元"></p>
+<center><em>ory图像插件</em></center>
+
+<p>要安装图片插件，我们使用NPM： <code>npm install ory-editor-plugins-image</code>。接下来，我们需要将它添加到我们的编辑器实例中：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Editor <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> image <span class="keyword">from</span> <span class="string">'ory-editor-plugins-image'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'ory-editor-plugins-image/lib/index.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editor = <span class="keyword">new</span> Editor(&#123;</span><br><span class="line">  plugins: &#123;</span><br><span class="line">    content: [image],</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>让我们从头到尾看下这段代码。首先，我们导入图片插件和它所需的CSS：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> image <span class="keyword">from</span> <span class="string">'ory-editor-plugins-image'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'ory-editor-plugins-image/lib/index.css'</span></span><br></pre></td></tr></table></figure>
+<p>我们假设你正在运行带有能够导入CSS的插件。</p>
+<p>接下来，我们创建编辑器实例，并通过构造函数传递图像内容插件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> editor = <span class="keyword">new</span> Editor(&#123;</span><br><span class="line">  plugins: &#123;</span><br><span class="line">    content: [image],</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>当然也可以选择在运行时（也就是在创建编辑器实例之后）添加/设置/删除布局和内容插件，如下所示。使用这些方法将强制重新渲染编辑器。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">editor.addContentPlugin(image)</span><br><span class="line">editor.removeContentPlugin(image)</span><br><span class="line">editor.setContentPlugins([image])</span><br></pre></td></tr></table></figure>
+<h2 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h2><p>接下来，我们显然想渲染编辑器。从核心软件包（ory-editor-core）导出一个名为<code>Editable</code>的ReactJs组件。假设我们的HTML是这样：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"editable-1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"controls"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在这种情况下，JavaScript代码如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Editor, &#123; Editable &#125; <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> image <span class="keyword">from</span> <span class="string">'ory-editor-plugins-image'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'ory-editor-plugins-image/lib/index.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editor = <span class="keyword">new</span> Editor(&#123;</span><br><span class="line">  plugins: &#123;</span><br><span class="line">    content: [image]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">ReactDOM.render((</span><br><span class="line">  &lt;Editable editor=&#123;editor&#125; /&gt;</span><br><span class="line">), <span class="built_in">document</span>.getElementById(<span class="string">'editable-1'</span>))</span><br></pre></td></tr></table></figure>
+<p>我们只需要渲染<code>Editable</code>组件并传递<code>editor</code>实例。但这里什么都不会发生，这是因为没有可供呈现的内容。</p>
+<h3 id="创建一个空的状态"><a href="#创建一个空的状态" class="headerlink" title="创建一个空的状态"></a>创建一个空的状态</h3><p>通过核心导出一个名为<code>createEmptyState</code>的方法创建一个空state。结果是一个JSON对象，其中包含一个唯一的ID。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createEmptyState &#125; <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editable = createEmptyState()</span><br><span class="line"><span class="built_in">console</span>.log(editable.id)</span><br><span class="line"></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//    "id": "258ef48a-9668-43c5-a771-d279f014a3a4", </span></span><br><span class="line"><span class="comment">//    "cells": [ ]</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br></pre></td></tr></table></figure>
+<p>把这个添加到上面的代码中，我们得到：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Editor, &#123; Editable, createEmptyState &#125; <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> image <span class="keyword">from</span> <span class="string">'ory-editor-plugins-image'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'ory-editor-plugins-image/lib/index.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editable = createEmptyState()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editor = <span class="keyword">new</span> Editor(&#123;</span><br><span class="line">  plugins: &#123;</span><br><span class="line">    content: [image]</span><br><span class="line">  &#125;,</span><br><span class="line">  editables: [editable],</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">ReactDOM.render((</span><br><span class="line">  &lt;Editable</span><br><span class="line">    editor=&#123;editor&#125;</span><br><span class="line">    id=&#123;editable.id&#125;</span><br><span class="line">  /&gt;</span><br><span class="line">), <span class="built_in">document</span>.getElementById(<span class="string">'editable-1'</span>))</span><br></pre></td></tr></table></figure>
+<p>请注意，必需添加<code>id={editable.id}</code>到<code>&lt;Editable&gt;</code>，<code>Editable</code>会通过id与editable中的id对比来判断数据是否属于该<code>Editable</code>，我们也可以自定义id，只要数据中的id也对上：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render((</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;div className=<span class="string">"left"</span>&gt;</span><br><span class="line">      &lt;Editable editor=&#123;editor&#125; id=<span class="string">"1"</span> /&gt;  </span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    &lt;div className="right"&gt;</span></span><br><span class="line"><span class="regexp">      &lt;Editable editor=&#123;editor&#125; id="2" /</span>&gt;    </span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">), <span class="built_in">document</span>.getElementById(<span class="string">'editable-1'</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="保存和加载"><a href="#保存和加载" class="headerlink" title="保存和加载"></a>保存和加载</h2><p>现在你已经知道了如何渲染一个编辑器并且用一个空的state来填充它，让我们来看看如何保存数据和加载数据。</p>
+<p>可以使用<code>onChange</code>属性来捕获<code>&lt;Editable&gt;</code>的更改。<code>onChange</code>的参数是一个新的editable，包含了整个<code>Editable</code>里所有的state的序列化值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render((</span><br><span class="line">  &lt;Editable</span><br><span class="line">    editor=&#123;editor&#125;</span><br><span class="line">    id=<span class="string">"1"</span></span><br><span class="line">    onChange=&#123;(editable) =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(editable)</span><br><span class="line">    &#125;&#125;</span><br><span class="line">  /&gt;</span><br><span class="line">), <span class="built_in">document</span>.getElementById(<span class="string">'editable-1'</span>))</span><br></pre></td></tr></table></figure>
+<p>它仅包含原始值（string, number, array, map），并且它可以序列化为JSON。</p>
+<p>比方说，你有一个叫<code>saveToBackend</code>的函数用来存储数据到数据库。你可以在onChange调用这个方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render((</span><br><span class="line">  &lt;Editable</span><br><span class="line">    editor=&#123;editor&#125;</span><br><span class="line">    id=<span class="string">"1"</span></span><br><span class="line">    onChange=&#123;(editable) =&gt; &#123;</span><br><span class="line">      saveToBackend(editable)</span><br><span class="line">    &#125;&#125;</span><br><span class="line">  /&gt;</span><br><span class="line">), <span class="built_in">document</span>.getElementById(<span class="string">'editable-1'</span>))</span><br></pre></td></tr></table></figure>
+<p>要加载内容，只需将其传递给构造函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> editable = loadFromBackend() <span class="comment">// just an example</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editor = <span class="keyword">new</span> Editor(&#123;</span><br><span class="line">  plugins: &#123;</span><br><span class="line">    content: [image]</span><br><span class="line">  &#125;,</span><br><span class="line">  editables: [editable],</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">or use the <span class="string">`trigger`</span> API.</span><br><span class="line"></span><br><span class="line">​<span class="string">``</span><span class="string">`jsx</span></span><br><span class="line"><span class="string">// const editor = new Editor( ...</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">const editable = loadFromBackend() // 只是一个例子，用来取序列化的state数据</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">editor.editable.update(editable) // 如果尚未存在，则添加内容，如果已在store存在，则更新</span></span><br></pre></td></tr></table></figure>
+<h1 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h1><h2 id="ReactJS示例"><a href="#ReactJS示例" class="headerlink" title="ReactJS示例"></a>ReactJS示例</h2><p>在本节中，我们将创建一个使用ORY Editor的简单react app。请确保您的系统上安装了<a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a></p>
+<p>目前，ORY Editor只能通过npm使用，而且在ReactJS环境下效果最好。</p>
+<h3 id="ReactJS"><a href="#ReactJS" class="headerlink" title="ReactJS"></a>ReactJS</h3><p>首先创建一个ReactJS应用程序。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> npm i -g create-react-app</span><br><span class="line"><span class="meta">$</span> create-react-app .</span><br></pre></td></tr></table></figure>
+<p>使用npm安装ory-editor：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> npm i --save ory-editor</span><br></pre></td></tr></table></figure>
+<p>接下来，打开文件<em>src / components / App.js</em>添加ORY Editor：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载编辑器核心</span></span><br><span class="line"><span class="keyword">import</span> Editor, &#123; Editable, createEmptyState &#125; <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'ory-editor-core/lib/index.css'</span> <span class="comment">// we also want to load the stylesheets</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载UI组件（悬浮在左侧的添加编辑按钮等），你也可以使用自己的实现的，这里使用的是官方的组件</span></span><br><span class="line"><span class="keyword">import</span> &#123; Trash, DisplayModeToggle, Toolbar &#125; <span class="keyword">from</span> <span class="string">'ory-editor-ui'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'ory-editor-ui/lib/index.css'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载插件:</span></span><br><span class="line"><span class="keyword">import</span> slate <span class="keyword">from</span> <span class="string">'ory-editor-plugins-slate'</span> <span class="comment">//  富文本内容插件</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'ory-editor-plugins-slate/lib/index.css'</span> <span class="comment">// Stylesheets for the rich text area plugin</span></span><br><span class="line"><span class="keyword">import</span> parallax <span class="keyword">from</span> <span class="string">'ory-editor-plugins-parallax-background'</span> <span class="comment">// 视差背景布局插件</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'ory-editor-plugins-parallax-background/lib/index.css'</span> <span class="comment">// Stylesheets for parallax background images</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'react-tap-event-plugin'</span>)() <span class="comment">// react-tap-event-plugin is required by material-ui which is used by ory-editor-ui so we need to call it here</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义哪些插件是我们要用的，这里我们只使用了slate和parallax两个插件，所以只加载这两个</span></span><br><span class="line"><span class="keyword">const</span> plugins = &#123;</span><br><span class="line">  content: [slate()], <span class="comment">// 定义内容插件</span></span><br><span class="line">  layout: [parallax(&#123; <span class="attr">defaultPlugin</span>: slate() &#125;)] <span class="comment">// 定义布局插件</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建空的editable，表示编辑器中内容为空</span></span><br><span class="line"><span class="keyword">const</span> content = createEmptyState()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化编辑器</span></span><br><span class="line"><span class="keyword">const</span> editor = <span class="keyword">new</span> Editor(&#123;</span><br><span class="line">  plugins,</span><br><span class="line">  <span class="comment">// 通过editables传递数据，可以有多个content，表示多个数据源，Editor会使用id来判断是否渲染</span></span><br><span class="line">  editables: [content],</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &#123;<span class="comment">/* 编辑器内容 */</span>&#125;</span><br><span class="line">        &lt;Editable editor=&#123;editor&#125; id=&#123;content.id&#125;/&gt;</span><br><span class="line"></span><br><span class="line">        &#123;<span class="comment">/* UI组件 */</span>&#125;</span><br><span class="line">        &lt;Trash editor=&#123;editor&#125;/&gt;</span><br><span class="line">        &lt;DisplayModeToggle editor=&#123;editor&#125;/&gt;</span><br><span class="line">        &lt;Toolbar editor=&#123;editor&#125;/&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default App;</span></span><br></pre></td></tr></table></figure>
+<p>就是这样，恭喜！你现在应该看到这样的东西：</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/30C0C14A-2AD4-4F8F-A13B-FA363B8764F8.png" alt="示例应用"></p>
+<p>这里的Text和Parallax Background就是刚刚在plugins中添加的内容插件（slate）和布局插件（parallax）</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/8E9157B2-3159-4126-84DE-7401C437E198.png" alt="示例应用"></p>
+<h2 id="写插件"><a href="#写插件" class="headerlink" title="写插件"></a>写插件</h2><h3 id="编写一个内容插件"><a href="#编写一个内容插件" class="headerlink" title="编写一个内容插件"></a>编写一个内容插件</h3><p>你可以很容易地编写自己的插件。插件有两个部分，一个是插件的定义，另一个是ReactJS组件。最小的插件定义如下所示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// You are obviously not limited to material-ui, but we really enjoy</span></span><br><span class="line"><span class="comment">// the material-ui svg icons!</span></span><br><span class="line"><span class="keyword">import</span> StarIcon <span class="keyword">from</span> <span class="string">'material-ui/svg-icons/toggle/star'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入要使用的ReactJS组件</span></span><br><span class="line"><span class="keyword">import</span> InputTextField <span class="keyword">from</span> <span class="string">'./Component'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  Component: InputTextField,</span><br><span class="line">  IconComponent: <span class="xml"><span class="tag">&lt;<span class="name">StarIcon</span> /&gt;</span>,</span></span><br><span class="line"><span class="xml">  name: 'example/content/input-text-field',</span></span><br><span class="line"><span class="xml">  version: '0.0.1',</span></span><br><span class="line"><span class="xml">  text: 'Input Text Field'</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>一个简单的ReactJS组件可以是这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// A callback function for the input field</span></span><br><span class="line"><span class="keyword">const</span> onInput = <span class="function">(<span class="params">onChange</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// Dispatch the onChange action with the new value</span></span><br><span class="line">    onChange(&#123;</span><br><span class="line">      value: e.target.value</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> InputTextField = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 这里的state、readOnly和onChan是必须的</span></span><br><span class="line">  <span class="keyword">const</span> &#123;</span><br><span class="line">    state: &#123; value = <span class="string">''</span> &#125;,</span><br><span class="line">    readOnly,</span><br><span class="line">    onChange</span><br><span class="line">  &#125; = props</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果readOnly为false，说明编辑器处于可编辑状态</span></span><br><span class="line">  <span class="keyword">if</span> (!readOnly) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div className=<span class="string">"my-plugin"</span>&gt;</span><br><span class="line">        &lt;input</span><br><span class="line">          type=<span class="string">"text"</span></span><br><span class="line">          onChange=&#123;onInput(onChange)&#125; value=&#123;value&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ If we are not in edit mode, remove the input field</span></span><br><span class="line"><span class="regexp">  return (</span></span><br><span class="line"><span class="regexp">    &lt;div className="my-plugin"&gt;</span></span><br><span class="line"><span class="regexp">      &#123;value&#125;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> InputTextField</span><br></pre></td></tr></table></figure>
+<p>当然，还有更多的设置和回调可用。欢迎查看关于此主题的API文档！</p>
+<p>最后，在APP.js中，启用刚写的内容插件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> testInput <span class="keyword">from</span> <span class="string">'./component/testInput'</span>		<span class="comment">// 引入刚刚写的内容插件</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">const</span> plugins = &#123; </span><br><span class="line">  content: [slate(), image, testInput], <span class="comment">// 定义内容插件</span></span><br><span class="line">  layout: [parallax(&#123; <span class="attr">defaultPlugin</span>: slate() &#125;)] <span class="comment">// 定义布局插件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来看看效果吧！</p>
+<p>在列表中，已经可以看到刚刚添加的<strong>内容插件</strong></p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/1513832631360.jpg" alt=""></p>
+<p>将<strong>内容插件</strong>拖到编辑器中，在编辑模式下能看到input输入框</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/1513832349623.jpg" alt=""></p>
+<p><strong>注：</strong></p>
+<p>浏览器的控制台可能会报一个错误</p>
+<blockquote>
+<p> Warning: Received <code>true</code> for a non-boolean attribute <code>autoCorrect</code>.</p>
+</blockquote>
+<p>这个是因为react版本的问题，在package.json中从把”react”: “^16.2.0”换回”react”: “^15.4.0”, “react-dom”: “^15.4.0”, …后问题解决，具体原因还不知道。</p>
+<p>参考:<a href="https://github.com/ory/editor/issues/494" target="_blank" rel="noopener">issues/494</a></p>
+<h3 id="编写一个布局插件"><a href="#编写一个布局插件" class="headerlink" title="编写一个布局插件"></a>编写一个布局插件</h3><p>布局插件有两个部分，一个插件定义和一个ReactJS组件。最小的布局插件定义如下所示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// You are obviously not limited to material-ui, but we really enjoy</span></span><br><span class="line"><span class="comment">// the material-ui svg icons!</span></span><br><span class="line"><span class="keyword">import</span> CropSquare <span class="keyword">from</span> <span class="string">'material-ui/svg-icons/image/crop-square'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 样式定义</span></span><br><span class="line"><span class="keyword">const</span> BlackBorderPlugin = <span class="function">(<span class="params">&#123; children &#125;</span>) =&gt;</span> (</span><br><span class="line">  &lt;div style=&#123;&#123; <span class="attr">border</span>: <span class="string">'1px solid black'</span>, <span class="attr">padding</span>: <span class="string">'16px'</span>, <span class="attr">height</span>: <span class="string">'300px'</span>&#125;&#125;&gt;</span><br><span class="line">    &#123;children&#125;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default &#123;</span></span><br><span class="line"><span class="regexp">  Component: BlackBorderPlugin,</span></span><br><span class="line"><span class="regexp">  IconComponent: &lt;CropSquare /</span>&gt;,</span><br><span class="line">  name: <span class="string">'example/layout/black-border'</span>,</span><br><span class="line">  version: <span class="string">'0.0.1'</span>,</span><br><span class="line">  text: <span class="string">'Black border'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是<strong>布局插件</strong>必须至少有一个子节点，否则<strong>布局插件</strong>将被自动删除，所以要加上默认的子节点。</p>
+<p>修改export为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> _uuid <span class="keyword">from</span> <span class="string">'uuid'</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (child) =&gt; &#123;</span><br><span class="line">  <span class="keyword">var</span> defaultPlugin = child.defaultPlugin;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    Component: BlackBorderPlugin,</span><br><span class="line">    IconComponent: <span class="xml"><span class="tag">&lt;<span class="name">CropSquare</span> /&gt;</span>,</span></span><br><span class="line"><span class="xml">    name: 'example/layout/black-border',</span></span><br><span class="line"><span class="xml">    version: '0.0.1',</span></span><br><span class="line"><span class="xml">    text: 'Black border',</span></span><br><span class="line"><span class="xml">    createInitialChildren: function createInitialChildren() &#123;</span></span><br><span class="line"><span class="xml">      return &#123;</span></span><br><span class="line"><span class="xml">        id: (0, _uuid.v4)(),</span></span><br><span class="line"><span class="xml">        rows: [&#123;</span></span><br><span class="line"><span class="xml">          id: (0, _uuid.v4)(),</span></span><br><span class="line"><span class="xml">          cells: [&#123;</span></span><br><span class="line"><span class="xml">            content: &#123;</span></span><br><span class="line"><span class="xml">              plugin: defaultPlugin,</span></span><br><span class="line"><span class="xml">              state: defaultPlugin.createInitialState()</span></span><br><span class="line"><span class="xml">            &#125;,</span></span><br><span class="line"><span class="xml">            id: (0, _uuid.v4)()</span></span><br><span class="line"><span class="xml">          &#125;]</span></span><br><span class="line"><span class="xml">        &#125;]</span></span><br><span class="line"><span class="xml">      &#125;;</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">  &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>其中createInitialChildren返回的对象格式不能随意修改，否则<code>Editor</code>可能无法正常识别，而导致错误</p>
+<p>最后，在APP.js中，添加<strong>布局插件</strong>的地方传入一个默认的<strong>内容组件</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> testLayout <span class="keyword">from</span> <span class="string">'./component/testLayout'</span>		<span class="comment">// 引入刚刚写的布局插件</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">const</span> plugins = &#123; </span><br><span class="line">  content: [slate(), image, testInput], <span class="comment">// 定义内容插件</span></span><br><span class="line">  layout: [parallax(&#123; <span class="attr">defaultPlugin</span>: slate() &#125;), testLayout(&#123;<span class="attr">defaultPlugin</span>: slate()&#125;)] <span class="comment">// 定义布局插件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来看看效果吧！</p>
+<p>在列表中，已经可以看到刚刚添加的<strong>布局插件</strong></p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/1513832864579.jpg" alt=""></p>
+<p>将<strong>布局插件</strong>拖到编辑器中，在编辑模式下能看到样式为<code>border: &#39;1px solid black&#39;, padding: &#39;16px&#39;, height: &#39;300px&#39;</code>的布局，以及嵌套在其中的默认子组件（富文本内容插件），在移动模式下，将这个子组件删除，整个<strong>布局插件</strong>就会自动删除。</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/1513832905392.jpg" alt=""></p>
+<h2 id="呈现HTML"><a href="#呈现HTML" class="headerlink" title="呈现HTML"></a>呈现HTML</h2><p>该<code>ory-editor-renderer</code>软件包提供了一个轻量级的HTML渲染器模块，通过这个模块渲染出展示用的html页面。您可以将其用于服务器端渲染或客户端渲染</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; HTMLRenderer &#125; <span class="keyword">from</span> <span class="string">'ory-editor-renderer'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> content = getEditorContent(id)	 <span class="comment">// 获取编辑器的数据，这只是一个例子</span></span><br><span class="line"><span class="keyword">const</span> state = &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"><span class="keyword">const</span> plugins = &#123;</span><br><span class="line">  layout: [<span class="comment">/* ... */</span>],		<span class="comment">// 布局插件</span></span><br><span class="line">  content: [<span class="comment">/* ... */</span>]		<span class="comment">// 内容插件</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> element = <span class="built_in">document</span>.getElementById(<span class="string">'editable'</span>)</span><br><span class="line">ReactDOM.render((</span><br><span class="line">  &lt;HTMLRenderer state=&#123;content[<span class="number">0</span>]&#125; plugins=&#123;plugins&#125;/&gt;</span><br><span class="line">), element)</span><br></pre></td></tr></table></figure>
+<h2 id="保存和恢复编辑器内容"><a href="#保存和恢复编辑器内容" class="headerlink" title="保存和恢复编辑器内容"></a>保存和恢复编辑器内容</h2><p>使用<code>onChange</code>回调来获取编辑器state的副本，可以用来持久化数据（存到数据库或其他方式保存数据）。之后这个被持久化的state可以加载到编辑器中被再次编辑，或者被<code>ory-editor-renderer</code>包渲染成HTML。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> Editor, &#123; Editable, createEmptyState &#125; <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"><span class="keyword">import</span> slate <span class="keyword">from</span> <span class="string">'ory-editor-plugins-slate'</span> <span class="comment">// The rich text area plugin</span></span><br><span class="line"><span class="keyword">import</span> &#123; Trash, DisplayModeToggle, Toolbar &#125; <span class="keyword">from</span> <span class="string">'ory-editor-ui'</span></span><br><span class="line"><span class="keyword">const</span> EditorPlugins = &#123;</span><br><span class="line">  content: [slate()],</span><br><span class="line">  layout: [<span class="comment">/* ... */</span>],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">saveToDatabase</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fetch(<span class="string">'/my/save/url'</span>, &#123; <span class="attr">method</span>: <span class="string">'POST'</span>, <span class="attr">body</span>: state &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEditor</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.editorState = <span class="keyword">this</span>.props.content || createEmptyState();</span><br><span class="line">        <span class="keyword">this</span>.editor = <span class="keyword">new</span> Editor(&#123; EditorPlugins, <span class="attr">editables</span>: [content] &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">          &lt;div className=<span class="string">"my-editor"</span>&gt;</span><br><span class="line">            &lt;toolbar&gt;</span><br><span class="line">              &lt;button onClick=&#123;() =&gt; saveToDatabase(<span class="keyword">this</span>.editorState)&#125;&gt;Save&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>toolbar&gt;</span><br><span class="line">            &lt;Editable editor=&#123;editor&#125; id=&#123;content.id&#125; onChange=&#123;state =&gt; (<span class="keyword">this</span>.editorState = state)&#125; /&gt;</span><br><span class="line">            &lt;Trash editor=&#123;editor&#125;/&gt;</span><br><span class="line">            &lt;DisplayModeToggle editor=&#123;editor&#125;/&gt;</span><br><span class="line">            &lt;Toolbar editor=&#123;editor&#125;/&gt;</span><br><span class="line">          &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>然后可以通过执行如下操作来获取状态：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; HTMLRenderer &#125; <span class="keyword">from</span> <span class="string">'ory-editor-renderer'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createEmptyState &#125; <span class="keyword">from</span> <span class="string">'ory-editor-core'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEditorRenderer</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.plugins = &#123; <span class="comment">//&#125;;</span></span><br><span class="line">        <span class="keyword">this</span>.setState(&#123; <span class="attr">contents</span>: createEmptyState() &#125;);</span><br><span class="line">        fetch(<span class="string">'/my/save/url'</span>).then(<span class="function">(<span class="params">savedState</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123; <span class="attr">contents</span>: savedState &#125;);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"my-editor"</span>&gt;</span><br><span class="line">                &lt;HTMLRenderer state=&#123;<span class="keyword">this</span>.state.contents&#125; plugins=&#123;EditorPlugins&#125; /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const element = document.getElementById('editable')</span></span><br><span class="line"><span class="regexp">ReactDOM.render((</span></span><br><span class="line"><span class="regexp">  &lt;MyEditorRenderer /</span>&gt;</span><br><span class="line">), element)</span><br></pre></td></tr></table></figure>
+<p>下面内容的作用还不知道，就先放出原文</p>
+<h2 id="Handling-native-drag-events"><a href="#Handling-native-drag-events" class="headerlink" title="Handling native drag events"></a>Handling native drag events</h2><p>The ORY Editor is capable of handling native drag and drop events. Native events include dragging of links, text, and images. Native drag support can be enabled by writing a <code>NativePlugin</code> and passing it during instantiation. In this example, we will use the default plugin, and take a look at how you can create your own later.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import native from &apos;ory-editor-plugins-default-native&apos;</span><br><span class="line"></span><br><span class="line">const editor = new Editor(&#123;</span><br><span class="line">  plugins: &#123;</span><br><span class="line">   layout: [],</span><br><span class="line">   content: [],</span><br><span class="line">   native</span><br><span class="line"> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>If native is undefined or null, native dragging wil be disabled. This is the default setting.</p>
+<p>Writing a native plugin is like writing a content or layout plugin. The only difference is that our native plugin must be wrapped in a factory that receives three arguments - <code>hover</code>, <code>monitor</code>, and <code>component</code>. Hover is the cell or row that is currently being hovered. Monitor is the <a href="https://react-dnd.github.io/react-dnd/docs-drop-target-monitor.html" target="_blank" rel="noopener">DropTargetMonitor</a>coming from react-dnd and <code>component</code> is the React component of the cell or row that is currently being hovered.</p>
+<p>In sum, an exemplary plugin looks like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;</span><br><span class="line"></span><br><span class="line">const Native = () =&gt; &lt;div&gt;native&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">export default (hover, monitor, component) =&gt; (&#123;</span><br><span class="line">  Component: Native,</span><br><span class="line">  name: &apos;my-native-plugin&apos;,</span><br><span class="line">  version: &apos;0.0.1&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Because this plugin is wrapped in a factory, we are able to modify its behaviour based on the properties we receive. One such example would be to add the item’s data to the initial state for later use.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export default (hover, monitor, component) =&gt; (&#123;</span><br><span class="line">  // ...</span><br><span class="line">  createInitialState: () =&gt; (&#123;</span><br><span class="line">    item: monitor.getItem()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Per default, the editor assumes that dropping the native element creates a content cell. To change this behaviour, use the key <code>type</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export default (hover, monitor, component) =&gt; (&#123;</span><br><span class="line">  // ...</span><br><span class="line">  type: &apos;layout&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><h2 id="基础包"><a href="#基础包" class="headerlink" title="基础包"></a>基础包</h2><h2 id="ory-editor-core"><a href="#ory-editor-core" class="headerlink" title="ory-editor-core"></a><a href="https://www.npmjs.com/package/ory-editor-core" target="_blank" rel="noopener">ory-editor-core</a></h2><p>这个包是ORY Editor的核心。它包含创建和修改布局的逻辑，并负责处理插件。</p>
+<h2 id="ory-editor-ui"><a href="#ory-editor-ui" class="headerlink" title="ory-editor-ui"></a><a href="https://www.npmjs.com/package/ory-editor-ui" target="_blank" rel="noopener">ory-editor-ui</a></h2><p>包含基于<a href="https://github.com/callemall/material-ui" target="_blank" rel="noopener">callemall / material-ui的</a> 的UI React组件 。虽然不是必须使用它们，但它们提供了一个简单的方法来开始使用ORY Editor。</p>
+<h2 id="ory-editor-renderer"><a href="#ory-editor-renderer" class="headerlink" title="ory-editor-renderer"></a><a href="https://www.npmjs.com/package/ory-editor-renderer" target="_blank" rel="noopener">ory-editor-renderer</a></h2><p>包含ORY Editor的渲染组件，目前只支持HTML渲染，负责将数据输出为静态HTML。</p>
+<h2 id="内容插件"><a href="#内容插件" class="headerlink" title="内容插件"></a>内容插件</h2><h3 id="ory-editor-plugins-slate"><a href="#ory-editor-plugins-slate" class="headerlink" title="ory-editor-plugins-slate"></a><a href="https://www.npmjs.com/package/ory-editor-plugins-slate" target="_blank" rel="noopener">ory-editor-plugins-slate</a></h3><p>创建和修改富文本，并针对ORY Editor进行了优化</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/text-editing-plugin.gif" alt="Text editing plugin"></p>
+<h3 id="ory-editor-plugins-image"><a href="#ory-editor-plugins-image" class="headerlink" title="ory-editor-plugins-image"></a><a href="https://www.npmjs.com/package/ory-editor-plugins-image" target="_blank" rel="noopener">ory-editor-plugins-image</a></h3><p>通过URL添加图片，不支持上传。</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/image-plugin.gif" alt="Image plugin"></p>
+<h3 id="ory-editor-plugins-video"><a href="#ory-editor-plugins-video" class="headerlink" title="ory-editor-plugins-video"></a><a href="https://www.npmjs.com/package/ory-editor-plugins-video" target="_blank" rel="noopener">ory-editor-plugins-video</a></h3><p>通过URL添加视频。</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/video-plugin.gif" alt="Video plugin"></p>
+<h3 id="ory-editor-plugins-spacer"><a href="#ory-editor-plugins-spacer" class="headerlink" title="ory-editor-plugins-spacer"></a><a href="https://www.npmjs.com/package/ory-editor-plugins-spacer" target="_blank" rel="noopener">ory-editor-plugins-spacer</a></h3><p>创建一个空的固定高度的<code>Cell</code></p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/spacer-plugin.gif" alt="Spacer plugin"></p>
+<h2 id="内容插件-1"><a href="#内容插件-1" class="headerlink" title="内容插件"></a>内容插件</h2><h3 id="ory-editor-plugins-parallax-background"><a href="#ory-editor-plugins-parallax-background" class="headerlink" title="ory-editor-plugins-parallax-background"></a><a href="https://www.npmjs.com/package/ory-editor-plugins-parallax-background" target="_blank" rel="noopener">ory-editor-plugins-parallax-background</a></h3><p>添加一个视差背景图像作为背景</p>
+<p><img src="http://oy1qb3tnj.bkt.clouddn.com/parallax-background.gif" alt="Spacer plugin"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+            <a href="/tags/可视化编辑器/" rel="tag"># 可视化编辑器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/27/满意度问卷调查项目总结/" rel="next" title="满意度问卷调查项目总结">
+                <i class="fa fa-chevron-left"></i> 满意度问卷调查项目总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/14/异步I-O分享/" rel="prev" title="异步I/O分享">
+                异步I/O分享 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wxc</p>
+              <p class="site-description motion-element" itemprop="description">前端/js/react/vue</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#示范"><span class="nav-number">1.1.</span> <span class="nav-text">示范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区别"><span class="nav-number">1.2.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行原理"><span class="nav-number">1.3.</span> <span class="nav-text">运行原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用指南"><span class="nav-number">2.</span> <span class="nav-text">使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心"><span class="nav-number">2.1.</span> <span class="nav-text">核心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#入门"><span class="nav-number">2.2.</span> <span class="nav-text">入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加插件"><span class="nav-number">2.3.</span> <span class="nav-text">添加插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染"><span class="nav-number">2.4.</span> <span class="nav-text">渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个空的状态"><span class="nav-number">2.4.1.</span> <span class="nav-text">创建一个空的状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存和加载"><span class="nav-number">2.5.</span> <span class="nav-text">保存和加载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#教程"><span class="nav-number">3.</span> <span class="nav-text">教程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ReactJS示例"><span class="nav-number">3.1.</span> <span class="nav-text">ReactJS示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ReactJS"><span class="nav-number">3.1.1.</span> <span class="nav-text">ReactJS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写插件"><span class="nav-number">3.2.</span> <span class="nav-text">写插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编写一个内容插件"><span class="nav-number">3.2.1.</span> <span class="nav-text">编写一个内容插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写一个布局插件"><span class="nav-number">3.2.2.</span> <span class="nav-text">编写一个布局插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#呈现HTML"><span class="nav-number">3.3.</span> <span class="nav-text">呈现HTML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存和恢复编辑器内容"><span class="nav-number">3.4.</span> <span class="nav-text">保存和恢复编辑器内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handling-native-drag-events"><span class="nav-number">3.5.</span> <span class="nav-text">Handling native drag events</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插件"><span class="nav-number">4.</span> <span class="nav-text">插件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础包"><span class="nav-number">4.1.</span> <span class="nav-text">基础包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ory-editor-core"><span class="nav-number">4.2.</span> <span class="nav-text">ory-editor-core</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ory-editor-ui"><span class="nav-number">4.3.</span> <span class="nav-text">ory-editor-ui</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ory-editor-renderer"><span class="nav-number">4.4.</span> <span class="nav-text">ory-editor-renderer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内容插件"><span class="nav-number">4.5.</span> <span class="nav-text">内容插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ory-editor-plugins-slate"><span class="nav-number">4.5.1.</span> <span class="nav-text">ory-editor-plugins-slate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ory-editor-plugins-image"><span class="nav-number">4.5.2.</span> <span class="nav-text">ory-editor-plugins-image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ory-editor-plugins-video"><span class="nav-number">4.5.3.</span> <span class="nav-text">ory-editor-plugins-video</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ory-editor-plugins-spacer"><span class="nav-number">4.5.4.</span> <span class="nav-text">ory-editor-plugins-spacer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内容插件-1"><span class="nav-number">4.6.</span> <span class="nav-text">内容插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ory-editor-plugins-parallax-background"><span class="nav-number">4.6.1.</span> <span class="nav-text">ory-editor-plugins-parallax-background</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wxc</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
