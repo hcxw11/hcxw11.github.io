@@ -117,7 +117,7 @@
 <meta property="og:description" content="js 异步编程-异步与回调​ 以下是看《你不知道的 JavaScript（中）》异步部分的感悟。 1. 关于异步​ 异步的概念由来已久，最早出现在操作系统的底层，在信号量、消息等地方有广泛的应用，但是在 JavaScript 中，异步的重要性尤为突出。如何准确地表达和控制程序在一段时间内按照预计的顺序执行，其实就是处理程序现在执行的部分和未来执行部分的关系。和使用多线程的语言不一样，使用单线程的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/1516017516611.jpg">
-<meta property="og:updated_time" content="2018-07-29T14:34:35.681Z">
+<meta property="og:updated_time" content="2018-07-29T14:37:18.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js异步编程-异步与回调">
 <meta name="twitter:description" content="js 异步编程-异步与回调​ 以下是看《你不知道的 JavaScript（中）》异步部分的感悟。 1. 关于异步​ 异步的概念由来已久，最早出现在操作系统的底层，在信号量、消息等地方有广泛的应用，但是在 JavaScript 中，异步的重要性尤为突出。如何准确地表达和控制程序在一段时间内按照预计的顺序执行，其实就是处理程序现在执行的部分和未来执行部分的关系。和使用多线程的语言不一样，使用单线程的">
@@ -374,7 +374,7 @@
                 
               
 
-              <time title="创建时间：2018-07-29 22:33:35 / 修改时间：22:34:35" itemprop="dateCreated datePublished" datetime="2018-07-29T22:33:35+08:00">2018-07-29</time>
+              <time title="创建时间：2018-07-29 22:33:35 / 修改时间：22:37:18" itemprop="dateCreated datePublished" datetime="2018-07-29T22:33:35+08:00">2018-07-29</time>
             
 
             
@@ -432,6 +432,7 @@
       
         <h1 id="js-异步编程-异步与回调"><a href="#js-异步编程-异步与回调" class="headerlink" title="js 异步编程-异步与回调"></a>js 异步编程-异步与回调</h1><p>​ 以下是看《你不知道的 JavaScript（中）》异步部分的感悟。</p>
 <h2 id="1-关于异步"><a href="#1-关于异步" class="headerlink" title="1. 关于异步"></a>1. 关于异步</h2><p>​ 异步的概念由来已久，最早出现在操作系统的底层，在信号量、消息等地方有广泛的应用，但是在 JavaScript 中，异步的重要性尤为突出。如何准确地表达和控制程序在一段时间内按照预计的顺序执行，其实就是处理程序<strong>现在执行的部分</strong>和<strong>未来执行部分</strong>的关系。和使用多线程的语言不一样，使用单线程的 JavaScript 时总是使用异步操作，因为我们不能将<strong>现在执行的部分</strong>和<strong>未来执行部分</strong>中间的那段空闲时间用来等待（这样会导致整个 UI 锁死，无法进行任何交互）。</p>
+<a id="more"></a>
 <p><img src="http://oy1qb3tnj.bkt.clouddn.com/1516017516611.jpg" alt=""></p>
 <p>​</p>
 <p>​ 伴随着 ajax（Asynchronous JavaScript and XML）席卷了 Web，前端充斥着大量的 ajax 和事件，这里有一个最基本的异步解决方案——回调。比如说，JavaScript 发出一个 ajax 请求，准备从服务器获取一些信息，可以在一个函数（回调）中设置好响应的代码，然后 JavaScript 会通知宿主环境（浏览器或者 node 等）：“现在我要暂停执行了，你一旦完成了网络请求，拿到了数据，就请调用这个函数。”然后，浏览器就会监听网络请求的响应，拿到数据之后，就会把回调函数插入到<strong>事件循环</strong>中，通过这种方式实现对回调的调度执行。</p>
