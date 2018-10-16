@@ -121,7 +121,8 @@
 <meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/2bf4a9f9-b834-4895-b754-dbe95d7ec209.png">
 <meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/eda9142b-ea81-4ce7-a09d-eb1ab73f9be2.png">
 <meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/c927f814-4fb0-43ca-830c-d31108c7458e.png">
-<meta property="og:updated_time" content="2018-10-15T11:04:22.059Z">
+<meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/eb98f6f1-d818-4520-95bf-616339ac8dc8.png">
+<meta property="og:updated_time" content="2018-10-16T13:01:43.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次性能优化">
 <meta name="twitter:description" content="页面性能分析使用 chrome DevTools 的 Performance 工具分析页面性能，发现有大量的自动重排 (Reflow)">
@@ -378,12 +379,24 @@
                 
               
 
-              <time title="创建时间：2018-10-15 19:01:27 / 修改时间：19:04:22" itemprop="dateCreated datePublished" datetime="2018-10-15T19:01:27+08:00">2018-10-15</time>
+              <time title="创建时间：2018-10-15 19:01:27" itemprop="dateCreated datePublished" datetime="2018-10-15T19:01:27+08:00">2018-10-15</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-16 21:01:43" itemprop="dateModified" datetime="2018-10-16T21:01:43+08:00">2018-10-16</time>
               
             
           </span>
@@ -459,7 +472,11 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">  <span class="keyword">const</span> myChart = echarts.init(<span class="built_in">document</span>.getElementById(<span class="keyword">this</span>.id), <span class="literal">null</span>, &#123; width, height &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.chart = myChart;</span><br><span class="line">  <span class="comment">// 绘制图表</span></span><br><span class="line">  <span class="keyword">this</span>.showData(data);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
 <p>长条的堵塞已经没了</p>
 <p><img src="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/c927f814-4fb0-43ca-830c-d31108c7458e.png" alt=""></p>
-<p>最后的错误是<code>Recurring handler</code>，来源自<code>Timer Fired</code>，看了代码后发现是因为图表的定制化需要，有一个图表的<code>showData</code>函数里面有大量的循环导致，暂时没有好的办法。</p>
+<p>​ 最后的错误是<code>Recurring handler</code>，来源自<code>Timer Fired</code>，看了代码后发现是因为图表的定制化需要，有一个图表的<code>showData</code>函数里面有大量的循环，并且这个操作是同步的，导致堵塞。</p>
+<h3 id="requestAnimationFrame-节流"><a href="#requestAnimationFrame-节流" class="headerlink" title="requestAnimationFrame 节流"></a>requestAnimationFrame 节流</h3><p>在看了<a href="https://react.docschina.org/docs/faq-functions.html#requestanimationframe%E8%8A%82%E6%B5%81" target="_blank" rel="noopener">官方的文档</a>之后，引入了<code>raf-schd</code>库，原理是使用<code>requestAnimationFrame</code>节流</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rafSchedule <span class="keyword">from</span> <span class="string">'raf-schd'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">constructor</span>() &#123;</span><br><span class="line">	...</span><br><span class="line">  <span class="keyword">this</span>.showData = rafSchedule(<span class="keyword">this</span>.showData.bind(<span class="keyword">this</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样调用<code>showData</code>，浏览器会努力保证 60 帧，效果如下图。</p>
+<p><img src="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/eb98f6f1-d818-4520-95bf-616339ac8dc8.png" alt=""></p>
 
       
     </div>
@@ -665,7 +682,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#页面性能分析"><span class="nav-number">1.</span> <span class="nav-text">页面性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免强制同步布局"><span class="nav-number">2.</span> <span class="nav-text">避免强制同步布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拆分同步渲染"><span class="nav-number">3.</span> <span class="nav-text">拆分同步渲染</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#页面性能分析"><span class="nav-number">1.</span> <span class="nav-text">页面性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免强制同步布局"><span class="nav-number">2.</span> <span class="nav-text">避免强制同步布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拆分同步渲染"><span class="nav-number">3.</span> <span class="nav-text">拆分同步渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#requestAnimationFrame-节流"><span class="nav-number">4.</span> <span class="nav-text">requestAnimationFrame 节流</span></a></li></ol></div>
             
 
           </div>
