@@ -116,17 +116,17 @@
 <meta property="og:site_name" content="吴某某嗯">
 <meta property="og:description" content="页面性能分析使用 chrome DevTools 的 Performance 工具分析页面性能，发现有大量的自动重排 (Reflow)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/4CFD3DD5-4E28-49B4-AB31-B1ADEBA9E4BC.png">
+<meta property="og:image" content="https://hcxw-1252348811.cos.ap-shanghai.myqcloud.com/4CFD3DD5-4E28-49B4-AB31-B1ADEBA9E4BC.png">
 <meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/330a5759-f027-4d9c-b901-f66ee65e0641.png">
 <meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/2bf4a9f9-b834-4895-b754-dbe95d7ec209.png">
 <meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/eda9142b-ea81-4ce7-a09d-eb1ab73f9be2.png">
 <meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/c927f814-4fb0-43ca-830c-d31108c7458e.png">
 <meta property="og:image" content="https://gt-toolbox.oss-cn-beijing.aliyuncs.com/gt-toolbox/eb98f6f1-d818-4520-95bf-616339ac8dc8.png">
-<meta property="og:updated_time" content="2018-10-16T13:01:43.914Z">
+<meta property="og:updated_time" content="2018-11-02T02:28:44.492Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次性能优化">
 <meta name="twitter:description" content="页面性能分析使用 chrome DevTools 的 Performance 工具分析页面性能，发现有大量的自动重排 (Reflow)">
-<meta name="twitter:image" content="http://oy1qb3tnj.bkt.clouddn.com/4CFD3DD5-4E28-49B4-AB31-B1ADEBA9E4BC.png">
+<meta name="twitter:image" content="https://hcxw-1252348811.cos.ap-shanghai.myqcloud.com/4CFD3DD5-4E28-49B4-AB31-B1ADEBA9E4BC.png">
 
 
 
@@ -396,7 +396,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-16 21:01:43" itemprop="dateModified" datetime="2018-10-16T21:01:43+08:00">2018-10-16</time>
+                <time title="修改时间：2018-11-02 10:28:44" itemprop="dateModified" datetime="2018-11-02T10:28:44+08:00">2018-11-02</time>
               
             
           </span>
@@ -449,7 +449,7 @@
       
         <h3 id="页面性能分析"><a href="#页面性能分析" class="headerlink" title="页面性能分析"></a>页面性能分析</h3><p>使用 chrome DevTools 的 Performance 工具分析页面性能，发现有大量的自动重排 (Reflow)</p>
 <a id="more"></a>
-<p><img src="http://oy1qb3tnj.bkt.clouddn.com/4CFD3DD5-4E28-49B4-AB31-B1ADEBA9E4BC.png" alt=""></p>
+<p><img src="https://hcxw-1252348811.cos.ap-shanghai.myqcloud.com/4CFD3DD5-4E28-49B4-AB31-B1ADEBA9E4BC.png" alt=""></p>
 <p>从上面的调用栈中可以看出，这里的产生问题的代码，来自<code>Painter.js</code>文件的 942 行，这个文件是属于 ECharts 库，点击<code>Painter.js:942</code>，会自动跳转到对应的代码处。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">_getSize: <span class="function"><span class="keyword">function</span> (<span class="params">whIdx</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> opts = <span class="keyword">this</span>._opts;</span><br><span class="line">  <span class="keyword">var</span> wh = [<span class="string">'width'</span>, <span class="string">'height'</span>][whIdx];</span><br><span class="line">  <span class="keyword">var</span> cwh = [<span class="string">'clientWidth'</span>, <span class="string">'clientHeight'</span>][whIdx];</span><br><span class="line">  <span class="keyword">var</span> plt = [<span class="string">'paddingLeft'</span>, <span class="string">'paddingTop'</span>][whIdx];</span><br><span class="line">  <span class="keyword">var</span> prb = [<span class="string">'paddingRight'</span>, <span class="string">'paddingBottom'</span>][whIdx];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (opts[wh] != <span class="literal">null</span> &amp;&amp; opts[wh] !== <span class="string">'auto'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">parseFloat</span>(opts[wh]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> root = <span class="keyword">this</span>.root; <span class="comment">// IE8 does not support getComputedStyle, but it use VML.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> stl = <span class="built_in">document</span>.defaultView.getComputedStyle(root);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 问题定位在这里</span></span><br><span class="line">  <span class="keyword">return</span> (root[cwh] || parseInt10(stl[wh]) || parseInt10(root.style[wh])) - (parseInt10(stl[plt]) || <span class="number">0</span>) - (parseInt10(stl[prb]) || <span class="number">0</span>) | <span class="number">0</span>;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <p><code>root[cwh]</code>这个表达式中，直接从 dom 中获取 clientWidth 和 clientHeight，所以浏览器必须先要<strong>强制同步布局</strong>，确保之前的样式生效，但是其实图表的宽和高在组件挂载时，在父组件已经把宽和高计算好了，在这里是没有必要通过重排获取参数的。</p>

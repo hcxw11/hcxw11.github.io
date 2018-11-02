@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="吴某某嗯">
 <meta property="og:description" content="因为后端使用 shiro 控制权限， 用户登录的时候返回的权限信息类似于 1[&apos;test/view&apos;, &apos;test/add&apos;, &apos;test/edit&apos;]; 仔细看了下 ant design pro 的权限控制组件后发现，可以很好地结合使用">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/18-7-13/22126879.jpg">
-<meta property="og:image" content="http://oy1qb3tnj.bkt.clouddn.com/18-7-13/78549458.jpg">
-<meta property="og:updated_time" content="2018-07-13T07:51:05.391Z">
+<meta property="og:image" content="https://hcxw-1252348811.cos.ap-shanghai.myqcloud.com/18-7-13/22126879.jpg">
+<meta property="og:image" content="https://hcxw-1252348811.cos.ap-shanghai.myqcloud.com/18-7-13/78549458.jpg">
+<meta property="og:updated_time" content="2018-11-02T02:28:44.432Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ant design pro中的权限控制">
 <meta name="twitter:description" content="因为后端使用 shiro 控制权限， 用户登录的时候返回的权限信息类似于 1[&apos;test/view&apos;, &apos;test/add&apos;, &apos;test/edit&apos;]; 仔细看了下 ant design pro 的权限控制组件后发现，可以很好地结合使用">
-<meta name="twitter:image" content="http://oy1qb3tnj.bkt.clouddn.com/18-7-13/22126879.jpg">
+<meta name="twitter:image" content="https://hcxw-1252348811.cos.ap-shanghai.myqcloud.com/18-7-13/22126879.jpg">
 
 
 
@@ -392,7 +392,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-07-13 15:51:05" itemprop="dateModified" datetime="2018-07-13T15:51:05+08:00">2018-07-13</time>
+                <time title="修改时间：2018-11-02 10:28:44" itemprop="dateModified" datetime="2018-11-02T10:28:44+08:00">2018-11-02</time>
               
             
           </span>
@@ -454,7 +454,7 @@
 <h2 id="3-记录用户权限"><a href="#3-记录用户权限" class="headerlink" title="3. 记录用户权限"></a>3. 记录用户权限</h2><p>登录获取到接口返回的权限信息后，通过工具类中封装好的<code>setAuthority</code>方法在 localStorage 中保存权限信息</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; setAuthority &#125; <span class="keyword">from</span> <span class="string">'../utils/authority'</span>;</span><br><span class="line">...</span><br><span class="line">	setAuthority(payload.currentAuthority);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>效果如下：</p>
-<p><img src="http://oy1qb3tnj.bkt.clouddn.com/18-7-13/22126879.jpg" alt=""></p>
+<p><img src="https://hcxw-1252348811.cos.ap-shanghai.myqcloud.com/18-7-13/22126879.jpg" alt=""></p>
 <p>保存权限信息完毕之后，还需要通过<code>reloadAuthorized</code>方法来刷新权限组件</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; reloadAuthorized &#125; <span class="keyword">from</span> <span class="string">'../utils/Authorized'</span>;</span><br><span class="line">...</span><br><span class="line">	reloadAuthorized();</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>下面就可以正常使用 ant design pro 的权限控制功能了</p>
@@ -464,7 +464,7 @@
 <p>或</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Authorized <span class="keyword">from</span> <span class="string">'../../utils/Authorized'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; Secured &#125; = Authorized;</span><br><span class="line"></span><br><span class="line">@Secured(<span class="string">'test/view'</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="页面内组件控制"><a href="#页面内组件控制" class="headerlink" title="页面内组件控制"></a>页面内组件控制</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Authorized <span class="keyword">from</span> <span class="string">'../../utils/Authorized'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">const</span> noMatch = &lt;div&gt;没有权限&lt;/div&gt;;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        权限测试页面</span><br><span class="line">        &lt;Authorized authority=<span class="string">"test/add"</span> noMatch=&#123;noMatch&#125;&gt;</span><br><span class="line">          &lt;button&gt;添加&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>Authorized&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>效果如下：<img src="http://oy1qb3tnj.bkt.clouddn.com/18-7-13/78549458.jpg" alt=""></p>
+<p>效果如下：<img src="https://hcxw-1252348811.cos.ap-shanghai.myqcloud.com/18-7-13/78549458.jpg" alt=""></p>
 
       
     </div>
